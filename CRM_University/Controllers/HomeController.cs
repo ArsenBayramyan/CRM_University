@@ -1,4 +1,7 @@
-﻿using CRM_University.Models;
+﻿using CRM_University.BLL;
+using CRM_University.Core.Interfaces;
+using CRM_University.Data.Repositories;
+using CRM_University.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,27 +14,34 @@ namespace CRM_University.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+       
+        private UnitOfWorkRepository _unitOfWork;
+        public HomeController(IUnitOfWorkRepository unitOfWork)
         {
-            _logger = logger;
+            _unitOfWork = (UnitOfWorkRepository)unitOfWork;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
+            //var textBL = new TestBL(_unitOfWork);
+            //textBL.GetMatanalizResult();
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult Index(int a)
         {
-            return View();
+            var textBL = new TestBL(_unitOfWork);
+            textBL.GetMatanalizResult();
+            return null;
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult GetMatanaliz()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            
+            return View();
         }
+       
     }
 }
