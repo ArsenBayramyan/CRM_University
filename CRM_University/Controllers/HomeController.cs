@@ -1,5 +1,6 @@
 ﻿using CRM_University.BLL;
 using CRM_University.Core.Interfaces;
+using CRM_University.Data.ExecuteComand;
 using CRM_University.Data.Repositories;
 using CRM_University.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -32,8 +33,7 @@ namespace CRM_University.Controllers
         [HttpPost]
         public IActionResult Index(int a)
         {
-            var textBL = new TestBL(_unitOfWork);
-            textBL.GetMatanalizResult();
+            var x=Executer.GetExamResult();
             return null;
         }
 
