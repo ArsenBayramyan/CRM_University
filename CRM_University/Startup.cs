@@ -1,4 +1,5 @@
 using CRM_University.Core.Interfaces;
+using CRM_University.Core.Jobs;
 using CRM_University.Data.Context;
 using CRM_University.Data.Models;
 using CRM_University.Data.Repositories;
@@ -35,6 +36,7 @@ namespace CRM_University
             services.AddTransient<IRepository<Assessment>, AssessmentRepository>();
             services.AddTransient<IRepository<StudentSubject>, StudentSubjectRepository>();
             services.AddTransient<IUnitOfWorkRepository, UnitOfWorkRepository>();
+            services.AddSingleton<QueryExecuteJob>();
             services.AddMvc(options => options.EnableEndpointRouting = false);
         }
 

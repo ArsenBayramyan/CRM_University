@@ -13,6 +13,7 @@ namespace CRM_University
     {
         public static void Main(string[] args)
         {
+            Core.Jobs.Scheduler.Start();
             CreateHostBuilder(args).Build().Run();
         }
 

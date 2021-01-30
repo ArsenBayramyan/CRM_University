@@ -33,15 +33,11 @@ namespace CRM_University.Controllers
         [HttpPost]
         public IActionResult Index(int a)
         {
-            var x=Executer.GetExamResult();
+            var x=Executer.GetFrequenciesGroupResult("K720");
             return null;
         }
 
-        public IActionResult GetMatanaliz()
-        {
-            
-            return View();
-        }
+       
        
     }
 }

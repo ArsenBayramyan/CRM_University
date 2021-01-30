@@ -17,6 +17,7 @@ namespace CRM_University.Data.Models
         public string Gender { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
+        public string Email { get; set; }
         public DateTime YearOfAdmission { get; set; }
         public DateTime CompletionYear { get; set; }
         public int MOG { get; set; }

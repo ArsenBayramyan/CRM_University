@@ -8,6 +8,7 @@ namespace CRM_University.Data.Models
 {
     public class BaseModel
     {
+        public int StudentId { get; set; }
         public string StudentFirstName { get; set; }
         public string StudentLastName { get; set; }
         public DateTime StudentBirthDate { get; set; }
@@ -23,5 +24,9 @@ namespace CRM_University.Data.Models
         public string FacultyName { get; set; }
         public string GroupName { get; set; }
         public string SubjectName { get; set; }
+        public int Frequency { get; set; }
+        public string Email { get; set; }
+        public string Paid { get; set; }
+
     }
 }
