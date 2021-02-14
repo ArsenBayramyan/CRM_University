@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Quartz.MisfireInstruction;
 
 namespace CRM_University.Core.Jobs
 {
@@ -18,10 +19,9 @@ namespace CRM_University.Core.Jobs
 
             ITrigger trigger = TriggerBuilder.Create()
             .WithIdentity("trigger1", "group1")
-             .WithCronSchedule("0 * * ? * *")
-             .ForJob("job", "group1")
-             .Build();
-
+            .StartNow()
+                .WithSchedule(CronScheduleBuilder.CronSchedule("0 30 9 1,5,10,15,20,25 MAY,DEC ? *"))
+            .Build();
             scheduler.ScheduleJob(job, trigger);
         }
     }

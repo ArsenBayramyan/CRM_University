@@ -1,0 +1,26 @@
+﻿@model FilterModel
+<div id="filter">
+    <table class="table-bordered table-condensed table-striped">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Faculty Name</th>
+            <th>Group Name</th>
+            <th>Subject Name</th>
+            <th>Result</th>
+        </tr>
+        @foreach (var s in Model.FilterList)
+        {
+            <tr class="well">
+                <td>@s.StudentFirstName</td>
+                <td>@s.StudentLastName</td>
+                <td>@s.FacultyName</td>
+                <td>@s.GroupName</td>
+                <td>@s.SubjectName</td>
+                <td>@s.ExaminationResult</td>
+            </tr>
+        }
+    </table>
+</div>
+
+<a class="btn btn-success" asp-action="DownloadExcel" asp-controller="Home" asp-route-id="@Model.Id">Download</a>

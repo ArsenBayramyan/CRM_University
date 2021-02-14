@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CRM_University.Data.ExecuteComand
 {
-    public static class Executer
+    public static class StoredProcedure
     {
         public static List<BaseModel> GetExamResult(string subjectName,int examResult )
         {
@@ -69,6 +69,7 @@ namespace CRM_University.Data.ExecuteComand
                     entity.StudentId = (int)dr["StudentId"];
                     entity.StudentFirstName = dr["FirstName"].ToString();
                     entity.StudentLastName = dr["LastName"].ToString();
+                    entity.Email = dr["Email"].ToString();
                     entity.FacultyName = dr["FacultyName"].ToString();
                     entity.GroupName = dr["GroupName"].ToString();
                     entity.SubjectName = dr["SubjectName"].ToString();
@@ -144,7 +145,7 @@ namespace CRM_University.Data.ExecuteComand
             }
         }
 
-        public static List<BaseModel> GetPaidFacultyResult(string faculty)
+        public static List<BaseModel> GetNonPaidResult()
         {
             using (SqlConnection con = new SqlConnection("Server=DESKTOP-B1TS7RO;Database=CRM_UniversityDB;Trusted_Connection=True;MultipleActiveResultSets=true"))
             {
@@ -154,7 +155,6 @@ namespace CRM_University.Data.ExecuteComand
 
                 SqlCommand cmd = new SqlCommand("GetPaidFacultyResult", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Faculty", faculty);
 
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);

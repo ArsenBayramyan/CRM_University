@@ -15,7 +15,7 @@ namespace CRM_University.BLL
         {
             this.UOW = unitOfWork;
         }
-        protected static void SendEmailMessage(string userToEmail, string message)
+        public static void SendEmailMessage(string userToEmail, string message)
         {
             var senderEmail = new MailAddress("arsen1997b@mail.ru", "I want this product");
             var receiverEmail = new MailAddress($"arsen.bayramyan1997@gmail.com", "Answer of Order");

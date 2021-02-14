@@ -1,8 +1,11 @@
 ﻿using CRM_University.BLL;
+using CRM_University.Core;
 using CRM_University.Core.Interfaces;
 using CRM_University.Data.ExecuteComand;
+using CRM_University.Data.Models;
 using CRM_University.Data.Repositories;
 using CRM_University.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -25,19 +28,22 @@ namespace CRM_University.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            //var textBL = new TestBL(_unitOfWork);
-            //textBL.GetMatanalizResult();
             return View();
         }
 
         [HttpPost]
-        public IActionResult Index(int a)
+        public IActionResult Action(int a)
         {
-            var x=Executer.GetFrequenciesGroupResult("K720");
-            return null;
+            StudentBL studentBL = new StudentBL(_unitOfWork);
+            var filter = studentBL.GetExamResult("Matanaliz",100);
+            return View(filter);
         }
-
-       
-       
+        public ActionResult DownloadExcel(int id)
+        {
+            byte[] array = CacheDictionary.dictioanry[key: id];
+            return File(array,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Report.xlsx");
+           
+        }
+        
     }
 }
