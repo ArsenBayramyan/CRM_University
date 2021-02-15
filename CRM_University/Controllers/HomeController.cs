@@ -1,10 +1,10 @@
-﻿using CRM_University.BLL;
+﻿using AutoMapper;
+using CRM_University.BLL;
 using CRM_University.Core;
 using CRM_University.Core.Interfaces;
 using CRM_University.Data.ExecuteComand;
-using CRM_University.Data.Models;
-using CRM_University.Data.Repositories;
 using CRM_University.Models;
+using CRM_University.Data.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -20,9 +20,11 @@ namespace CRM_University.Controllers
     {
        
         private UnitOfWorkRepository _unitOfWork;
-        public HomeController(IUnitOfWorkRepository unitOfWork)
+        private IMapper _mapper;
+        public HomeController(IUnitOfWorkRepository unitOfWork,IMapper mapper)
         {
             _unitOfWork = (UnitOfWorkRepository)unitOfWork;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -35,7 +37,8 @@ namespace CRM_University.Controllers
         public IActionResult Action(int a)
         {
             StudentBL studentBL = new StudentBL(_unitOfWork);
-            var filter = studentBL.GetExamResult("Matanaliz",100);
+            var dalFilter = studentBL.GetExamResult("Matanaliz",100);
+            var filter = this._mapper.Map<Data.Models.FilterModel, FilterModel>(dalFilter);
             return View(filter);
         }
         public ActionResult DownloadExcel(int id)
