@@ -15,5 +15,6 @@ namespace CRM_University.Data.Context
         public DbSet<Assessment> Assessments { get; set; }
         public DbSet<Examination> Examinations { get; set; }
         public DbSet<StudentSubject> StudentSubjects { get; set; }
+        public DbSet<SentEmails> UnpaidStudents { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+using AutoMapper;
 using CRM_University.Core.Interfaces;
 using CRM_University.Core.Jobs;
 using CRM_University.Data.Context;
@@ -37,6 +38,7 @@ namespace CRM_University
             services.AddTransient<IRepository<StudentSubject>, StudentSubjectRepository>();
             services.AddTransient<IUnitOfWorkRepository, UnitOfWorkRepository>();
             services.AddSingleton<QueryExecuteJob>();
+            services.AddAutoMapper(typeof(Startup));
             services.AddMvc(options => options.EnableEndpointRouting = false);
         }
 

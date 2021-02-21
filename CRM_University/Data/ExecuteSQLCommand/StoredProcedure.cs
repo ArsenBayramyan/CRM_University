@@ -178,5 +178,36 @@ namespace CRM_University.Data.ExecuteComand
             }
         }
 
+        public static List<BaseModel> GetFrequenciesAllResult()
+        {
+            using (SqlConnection con = new SqlConnection("Server=DESKTOP-B1TS7RO;Database=CRM_UniversityDB;Trusted_Connection=True;MultipleActiveResultSets=true"))
+            {
+
+                DataTable dt = new DataTable();
+                List<BaseModel> entityes = new List<BaseModel>();
+
+                SqlCommand cmd = new SqlCommand("GetFrequenciesAllResult", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    BaseModel entity = new BaseModel();
+                    entity.StudentFirstName = dr["FirstName"].ToString();
+                    entity.StudentLastName = dr["LastName"].ToString();
+                    entity.Email = dr["Email"].ToString();
+                    entity.FacultyName = dr["FacultyName"].ToString();
+                    entity.GroupName = dr["GroupName"].ToString();
+                    entity.Frequency = (int)dr["Frequency"];
+                    entityes.Add(entity);
+                }
+
+                return entityes;
+            }
+        }
+
     }
 }

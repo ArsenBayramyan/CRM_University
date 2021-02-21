@@ -1,5 +1,4 @@
-﻿using CRM_University.BLL;
-using CRM_University.Core.Enums;
+﻿using CRM_University.Core.Enums;
 using CRM_University.Data.Context;
 using CRM_University.Data.ExecuteComand;
 using CRM_University.Data.Models;
@@ -11,12 +10,11 @@ using System.Threading.Tasks;
 
 namespace CRM_University.Core.Jobs
 {
-    public class QueryExecuteJob : IJob
+    public class ProcedureExecuteJob : IJob
     {
-
         public Task Execute(IJobExecutionContext context)
         {
-            var students = StoredProcedure.GetNonPaidResult();
+            var students = StoredProcedure.GetFrequenciesAllResult();
             var contextOptions = new DbContextOptionsBuilder<ApplicationDBContext>()
                 .UseSqlServer(@"Server=DESKTOP-B1TS7RO;Database=CRM_UniversityDB;Trusted_Connection=True;MultipleActiveResultSets=true")
                 .Options;
@@ -24,9 +22,9 @@ namespace CRM_University.Core.Jobs
             var uow = new UnitOfWorkRepository(context2);
             foreach (var student in students)
             {
-                var message = "usman vardzy vjarel";
+                var message = "bacakayutyan nkatoxutyun eq stacel";
                 EmailSender.SendEmail(student.Email, message);
-                uow.UnpaidStudentsRepository.Save(new SentEmails { StudentId = student.StudentId, SendEmailDate = DateTime.Now,AlertType=AlertType.SentForTution });
+                uow.UnpaidStudentsRepository.Save(new SentEmails { StudentId = student.StudentId, SendEmailDate = DateTime.Now, AlertType = AlertType.SentForAssessment });
             }
 
             return null;

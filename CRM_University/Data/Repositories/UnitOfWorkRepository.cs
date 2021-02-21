@@ -1,9 +1,5 @@
 ﻿using CRM_University.Core.Interfaces;
 using CRM_University.Data.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CRM_University.Data.Repositories
 {
@@ -17,6 +13,7 @@ namespace CRM_University.Data.Repositories
         private StudentSubjectRepository _studentSubjectRepository;
         private SubjectRepository _subjectRepository;
         private TutionRepository _tutionRepository;
+        private UnpaidStudentsRepository _unpaidStudentRepository;
         public UnitOfWorkRepository(ApplicationDBContext context)
         {
             _studentRepository = new StudentRepository(context);
@@ -27,6 +24,7 @@ namespace CRM_University.Data.Repositories
             _studentSubjectRepository = new StudentSubjectRepository(context);
             _subjectRepository = new SubjectRepository(context);
             _tutionRepository = new TutionRepository(context);
+            _unpaidStudentRepository = new UnpaidStudentsRepository(context);
         }
 
         public StudentRepository StudentRepository => _studentRepository;
@@ -37,6 +35,7 @@ namespace CRM_University.Data.Repositories
         public StudentSubjectRepository StudentSubjectRepository => _studentSubjectRepository;
         public SubjectRepository SubjectRepository => _subjectRepository;
         public TutionRepository TutionRepository => _tutionRepository;
+        public UnpaidStudentsRepository UnpaidStudentsRepository => _unpaidStudentRepository;
 
     }
 }
