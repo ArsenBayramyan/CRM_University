@@ -38,13 +38,15 @@ namespace CRM_University.Models.ViewModels
         public DateTime CompletionYear { get; set; }
         [Display(Name = "ՄՈԳ")]
 
-        public int MOG { get; set; }
+        public double MOG { get; set; }
         [Display(Name = "Ստուգարքի արդյունքը")]
 
         public AssessmentResult AssesmentResult { get; set; }
         [Display(Name = "Քննության արդյունքը")]
 
         public byte ExaminationResult { get; set; }
+        [Display(Name = "Քննության օրը")]
+        public DateTime ExaminationDay { get; set; }
         [Display(Name = "Ֆակուլտետի ուսման վարձը")]
 
         public decimal FacultyFee { get; set; }

@@ -18,9 +18,10 @@ namespace CRM_University.Data.Models
         public string Country { get; set; }
         public DateTime YearOfAdmission { get; set; }
         public DateTime CompletionYear { get; set; }
-        public int MOG { get; set; }
+        public double MOG { get; set; }
         public AssessmentResult AssesmentResult { get; set; }
         public byte ExaminationResult { get; set; }
+        public DateTime ExaminationDay { get; set; }
         public decimal FacultyFee { get; set; }
         public string FacultyName { get; set; }
         public string GroupName { get; set; }

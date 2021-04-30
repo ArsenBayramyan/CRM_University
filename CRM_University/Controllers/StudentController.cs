@@ -143,5 +143,24 @@ namespace CRM_University.Controllers
 
             return View(studentsViewModel);
         }
+
+        [HttpGet]
+        public IActionResult Mog()
+        {
+            var faculties = _unitOfWork.FacultyRepository.List();
+            var groups = _unitOfWork.GroupRepository.List();
+            var students = _unitOfWork.StudentRepository.List();
+
+            return View(new StudentViewModel { Faculties = faculties, Groups = groups ,Students=students});
+        }
+        [HttpPost]
+        public IActionResult Mog(StudentViewModel studentViewModel)
+        {
+            StudentBL studentBL = new StudentBL(_unitOfWork);
+            var students = studentBL.GetStudentMog(studentViewModel.FacultyName,studentViewModel.GroupName,studentViewModel.StudentId,studentViewModel.StartDate,studentViewModel.EndDate);
+            var studentsViewModel = this._mapper.Map<Filter, FilterViewModel>(students);
+
+            return View("~/Views/Student/MogPost.cshtml",studentsViewModel);
+        }
     }
 }

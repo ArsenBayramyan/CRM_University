@@ -39,23 +39,23 @@ namespace CRM_University.BLL
             return table;
         }
 
-        public Data.Models.Filter GetExamResult(string subject,string facultyName,string groupName, int result)
+        public Data.Models.Filter GetExamResult(string subject, string facultyName, string groupName, int result)
         {
             var students = from exam in UOW.ExaminationRepository.List()
-                            join s in UOW.StudentRepository.List() on exam.StudentId equals s.StudentId
-                            join g in UOW.GroupRepository.List() on s.GroupId equals g.GroupId
-                            join f in UOW.FacultyRepository.List() on g.FacultyId equals f.FacultyId
-                            join sub in UOW.SubjectRepository.List() on exam.SubjectId equals sub.SubjectId
-                            select new BaseModel
-                            {
-                                StudentId = s.StudentId,
-                                StudentFirstName = s.FirstName,
-                                StudentLastName = s.LastName,
-                                FacultyName = f.FacultyName,
-                                GroupName = g.GroupName,
-                                SubjectName = sub.SubjectName,
-                                ExaminationResult = exam.Result
-                            };
+                           join s in UOW.StudentRepository.List() on exam.StudentId equals s.StudentId
+                           join g in UOW.GroupRepository.List() on s.GroupId equals g.GroupId
+                           join f in UOW.FacultyRepository.List() on g.FacultyId equals f.FacultyId
+                           join sub in UOW.SubjectRepository.List() on exam.SubjectId equals sub.SubjectId
+                           select new BaseModel
+                           {
+                               StudentId = s.StudentId,
+                               StudentFirstName = s.FirstName,
+                               StudentLastName = s.LastName,
+                               FacultyName = f.FacultyName,
+                               GroupName = g.GroupName,
+                               SubjectName = sub.SubjectName,
+                               ExaminationResult = exam.Result
+                           };
             if (facultyName != null)
             {
                 students = students.Where(f => f.FacultyName == facultyName);
@@ -64,7 +64,7 @@ namespace CRM_University.BLL
             {
                 students = students.Where(g => g.GroupName == groupName);
             }
-            if (result!=default(int))
+            if (result != default(int))
             {
                 students = students.Where(s => s.ExaminationResult == result);
 
@@ -72,7 +72,7 @@ namespace CRM_University.BLL
             students = students.Where(s => s.SubjectName == subject);
             return new Data.Models.Filter { FilterList = students.ToList() };
         }
-        
+
         public Data.Models.Filter GetFrequency(int absenceCount, string facultyName, string groupName)
         {
             var ex = (from fr in UOW.FrequenciyRepository.List()
@@ -88,7 +88,7 @@ namespace CRM_University.BLL
                           FacultyName = f.FacultyName,
                           GroupName = g.GroupName,
                           Absences = UOW.FrequenciyRepository.List().GroupBy(x => x.StudentId).First(x => x.Key == s.StudentId).Sum(x => x.Absences)
-                      }).GroupBy(x => x.StudentId).Select(x => x.FirstOrDefault()); 
+                      }).GroupBy(x => x.StudentId).Select(x => x.FirstOrDefault());
 
             if (facultyName != null)
             {
@@ -107,7 +107,7 @@ namespace CRM_University.BLL
         public Data.Models.Filter GetUnPaidStudents(string facultyName, string groupName)
         {
             var ex = (from st in UOW.StudentRepository.List()
-                      //join s in UOW.StudentRepository.List() on unPaid.StudentId equals s.StudentId
+                          //join s in UOW.StudentRepository.List() on unPaid.StudentId equals s.StudentId
                       join g in UOW.GroupRepository.List() on st.GroupId equals g.GroupId
                       join f in UOW.FacultyRepository.List() on g.FacultyId equals f.FacultyId
                       select new BaseModel
@@ -119,7 +119,7 @@ namespace CRM_University.BLL
                           FacultyName = f.FacultyName,
                           GroupName = g.GroupName,
                           FacultyFee = f.Fee,
-                          Paid=st.Paid,
+                          Paid = st.Paid,
                       }).GroupBy(x => x.StudentId).Select(x => x.FirstOrDefault());
 
             if (facultyName != null)
@@ -138,59 +138,28 @@ namespace CRM_University.BLL
         public Data.Models.Filter GetAnotherCountryStudents()
         {
             var students = from st in UOW.StudentRepository.List()
-                     join g in UOW.GroupRepository.List() on st.GroupId equals g.GroupId
-                     join f in UOW.FacultyRepository.List() on g.FacultyId equals f.FacultyId
-                     select new BaseModel
-                     {
-                         StudentId = st.StudentId,
-                         StudentFirstName = st.FirstName,
-                         StudentLastName = st.LastName,
-                         Email = st.Email,
-                         FacultyName = f.FacultyName,
-                         GroupName = g.GroupName,
-                         Country=st.Country,
-                         City=st.City,
-                         Address=st.Address,
-                         Status=st.Status
-                     };
-           
+                           join g in UOW.GroupRepository.List() on st.GroupId equals g.GroupId
+                           join f in UOW.FacultyRepository.List() on g.FacultyId equals f.FacultyId
+                           select new BaseModel
+                           {
+                               StudentId = st.StudentId,
+                               StudentFirstName = st.FirstName,
+                               StudentLastName = st.LastName,
+                               Email = st.Email,
+                               FacultyName = f.FacultyName,
+                               GroupName = g.GroupName,
+                               Country = st.Country,
+                               City = st.City,
+                               Address = st.Address,
+                               Status = st.Status
+                           };
+
             students = students.Where(s => s.Country.Trim() != "Հայաստան");
 
             return new Data.Models.Filter { FilterList = students.ToList() };
         }
 
         public Data.Models.Filter GetStudents(string facultyName, string groupName)
-        {
-            var students =  from st in UOW.StudentRepository.List()
-                            join g in UOW.GroupRepository.List() on st.GroupId equals g.GroupId
-                            join f in UOW.FacultyRepository.List() on g.FacultyId equals f.FacultyId
-                            select new BaseModel
-                            {
-                                StudentId = st.StudentId,
-                                StudentFirstName = st.FirstName,
-                                StudentLastName = st.LastName,
-                                Country = st.Country,
-                                City = st.City,
-                                Address = st.Address,
-                                Email = st.Email,
-                                YearOfAdmission = st.YearOfAdmission,
-                                FacultyName = f.FacultyName,
-                                GroupName = g.GroupName,
-                                Status=st.Status
-                            };
-            if (facultyName != null)
-            {
-                students = students.Where(f => f.FacultyName == facultyName);
-            }
-            if (groupName != null)
-            {
-                students = students.Where(g => g.GroupName == groupName);
-            }
-
-            return new Data.Models.Filter { FilterList = students.ToList() };
-        }
-
-        public Data.Models.Filter GetForFreeStudents(string facultyName,string groupName)
         {
             var students = from st in UOW.StudentRepository.List()
                            join g in UOW.GroupRepository.List() on st.GroupId equals g.GroupId
@@ -207,7 +176,38 @@ namespace CRM_University.BLL
                                YearOfAdmission = st.YearOfAdmission,
                                FacultyName = f.FacultyName,
                                GroupName = g.GroupName,
-                               Status=st.Status
+                               Status = st.Status
+                           };
+            if (facultyName != null)
+            {
+                students = students.Where(f => f.FacultyName == facultyName);
+            }
+            if (groupName != null)
+            {
+                students = students.Where(g => g.GroupName == groupName);
+            }
+
+            return new Data.Models.Filter { FilterList = students.ToList() };
+        }
+
+        public Data.Models.Filter GetForFreeStudents(string facultyName, string groupName)
+        {
+            var students = from st in UOW.StudentRepository.List()
+                           join g in UOW.GroupRepository.List() on st.GroupId equals g.GroupId
+                           join f in UOW.FacultyRepository.List() on g.FacultyId equals f.FacultyId
+                           select new BaseModel
+                           {
+                               StudentId = st.StudentId,
+                               StudentFirstName = st.FirstName,
+                               StudentLastName = st.LastName,
+                               Country = st.Country,
+                               City = st.City,
+                               Address = st.Address,
+                               Email = st.Email,
+                               YearOfAdmission = st.YearOfAdmission,
+                               FacultyName = f.FacultyName,
+                               GroupName = g.GroupName,
+                               Status = st.Status
                            };
             if (facultyName != null)
             {
@@ -247,6 +247,35 @@ namespace CRM_University.BLL
             return new Data.Models.Filter { FilterList = students.ToList() };
         }
 
+        public Data.Models.Filter GetStudentMog(string facultyName, string groupName, int studentId, DateTime StartDate, DateTime EndDate)
+        {
+            var students = from exam in UOW.ExaminationRepository.List()
+                           join st in UOW.StudentRepository.List() on exam.StudentId equals st.StudentId
+                           join s in UOW.SubjectRepository.List() on exam.SubjectId equals s.SubjectId
+                           join g in UOW.GroupRepository.List() on st.GroupId equals g.GroupId
+                           join f in UOW.FacultyRepository.List() on g.FacultyId equals f.FacultyId
+                           select new BaseModel
+                           {
+                               StudentId = st.StudentId,
+                               StudentFirstName = st.FirstName,
+                               StudentLastName = st.LastName,
+                               SubjectName = s.SubjectName,
+                               ExaminationDay = exam.ExaminationDay,
+                               ExaminationResult = exam.Result,
+                               MOG = UOW.ExaminationRepository.List().GroupBy(x => x.StudentId).First(x => x.Key == st.StudentId).Average(x => x.Result),
+                               FacultyName = f.FacultyName,
+                               GroupName = g.GroupName,
+                           };
+
+
+            students = students.Where(f => f.FacultyName == facultyName);
+            students = students.Where(g => g.GroupName == groupName);
+            students = students.Where(s => s.StudentId == studentId);
+            students = students.Where(d => DateTime.Parse(d.ExaminationDay.ToString("dd/MM/yyyy")) >= StartDate && DateTime.Parse(d.ExaminationDay.ToString("dd/MM/yyyy")) <= EndDate);
+
+            return new Data.Models.Filter { FilterList = students.ToList() };
+
+        }
     }
 
 }

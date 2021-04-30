@@ -11,5 +11,6 @@ namespace CRM_University.Data.Models
         public int SubjectId { get; set; }
         public int StudentId { get; set; }
         public byte Result { get; set; }
+        public DateTime ExaminationDay { get; set; }
     }
 }

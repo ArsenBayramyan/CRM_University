@@ -13,7 +13,14 @@ namespace CRM_University.Models.ViewModels
         public string FacultyName { get; set; }
         [Display(Name = "Խումբ")]
         public string GroupName { get; set; }
+        [Display(Name = "ՈՒսանող")]
+        public int StudentId { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public IEnumerable<Faculty> Faculties { get; set; }
         public IEnumerable<Group> Groups { get; set; }
+        public IEnumerable<Student> Students { get; set; }
+        public IEnumerable<Subject> Subjects { get; set; }
+        public IEnumerable<Examination> Examinations { get; set; }
     }
 }
