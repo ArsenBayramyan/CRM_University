@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CRM_University.Core.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,11 +16,13 @@ namespace CRM_University.Data.Models
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
         public string Gender { get; set; }
+        public string Country { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }
         public DateTime YearOfAdmission { get; set; }
         public DateTime CompletionYear { get; set; }
-        public int MOG { get; set; }
+        public bool Paid { get; set; }
+        public StudentStatus Status { get; set; }
     }
 }

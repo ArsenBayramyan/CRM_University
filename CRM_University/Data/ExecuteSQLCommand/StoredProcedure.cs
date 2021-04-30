@@ -1,4 +1,4 @@
-﻿using CRM_University.Data.Context;
+﻿using CRM_University.Data.Contexts;
 using CRM_University.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,9 +12,10 @@ namespace CRM_University.Data.ExecuteComand
 {
     public static class StoredProcedure
     {
+        private const string _connectionString = "Server=localhost;Database=CRM_UniversityDB;Trusted_Connection=True;MultipleActiveResultSets=true";
         public static List<BaseModel> GetExamResult(string subjectName,int examResult )
         {
-            using (SqlConnection con = new SqlConnection("Server=DESKTOP-B1TS7RO;Database=CRM_UniversityDB;Trusted_Connection=True;MultipleActiveResultSets=true"))
+            using (SqlConnection con = new SqlConnection(_connectionString))
             {
 
                 DataTable dt = new DataTable();
@@ -48,7 +49,7 @@ namespace CRM_University.Data.ExecuteComand
 
         public static List<BaseModel> GetFrequenciesResult(string faculty,string group,string subject)
         {
-            using (SqlConnection con = new SqlConnection("Server=DESKTOP-B1TS7RO;Database=CRM_UniversityDB;Trusted_Connection=True;MultipleActiveResultSets=true"))
+            using (SqlConnection con = new SqlConnection(_connectionString))
             {
                 
                 DataTable dt = new DataTable();
@@ -73,7 +74,7 @@ namespace CRM_University.Data.ExecuteComand
                     entity.FacultyName = dr["FacultyName"].ToString();
                     entity.GroupName = dr["GroupName"].ToString();
                     entity.SubjectName = dr["SubjectName"].ToString();
-                    entity.Frequency = (int)dr["Frequency"];
+                    entity.Absences = (int)dr["Absences"];
                     entityes.Add(entity);
                 }
 
@@ -83,7 +84,7 @@ namespace CRM_University.Data.ExecuteComand
 
         public static List<BaseModel> GetFrequenciesFacultyResult(string faculty)
         {
-            using (SqlConnection con = new SqlConnection("Server=DESKTOP-B1TS7RO;Database=CRM_UniversityDB;Trusted_Connection=True;MultipleActiveResultSets=true"))
+            using (SqlConnection con = new SqlConnection(_connectionString))
             {
 
                 DataTable dt = new DataTable();
@@ -105,7 +106,7 @@ namespace CRM_University.Data.ExecuteComand
                     entity.StudentLastName = dr["LastName"].ToString();
                     entity.FacultyName = dr["FacultyName"].ToString();
                     entity.GroupName = dr["GroupName"].ToString();
-                    entity.Frequency = (int)dr["Frequency"];
+                    entity.Absences = (int)dr["Frequency"];
                     entityes.Add(entity);
                 }
 
@@ -115,7 +116,7 @@ namespace CRM_University.Data.ExecuteComand
 
         public static List<BaseModel> GetFrequenciesGroupResult(string group)
         {
-            using (SqlConnection con = new SqlConnection("Server=DESKTOP-B1TS7RO;Database=CRM_UniversityDB;Trusted_Connection=True;MultipleActiveResultSets=true"))
+            using (SqlConnection con = new SqlConnection(_connectionString))
             {
 
                 DataTable dt = new DataTable();
@@ -137,7 +138,7 @@ namespace CRM_University.Data.ExecuteComand
                     entity.StudentLastName = dr["LastName"].ToString();
                     entity.FacultyName = dr["FacultyName"].ToString();
                     entity.GroupName = dr["GroupName"].ToString();
-                    entity.Frequency = (int)dr["Frequency"];
+                    entity.Absences = (int)dr["Absences"];
                     entityes.Add(entity);
                 }
 
@@ -147,7 +148,7 @@ namespace CRM_University.Data.ExecuteComand
 
         public static List<BaseModel> GetNonPaidResult()
         {
-            using (SqlConnection con = new SqlConnection("Server=DESKTOP-B1TS7RO;Database=CRM_UniversityDB;Trusted_Connection=True;MultipleActiveResultSets=true"))
+            using (SqlConnection con = new SqlConnection(_connectionString))
             {
 
                 DataTable dt = new DataTable();
@@ -170,7 +171,7 @@ namespace CRM_University.Data.ExecuteComand
                     entity.FacultyName = dr["FacultyName"].ToString();
                     entity.GroupName = dr["GroupName"].ToString();
                     entity.FacultyFee = (int)dr["Fee"];
-                    entity.Paid= dr["Paid"].ToString();
+                    entity.Paid = (bool)dr["Paid"];
                     entityes.Add(entity);
                 }
 
@@ -178,9 +179,9 @@ namespace CRM_University.Data.ExecuteComand
             }
         }
 
-        public static List<BaseModel> GetFrequenciesAllResult()
+        public static List<BaseModel> GetFrequenciesAllResult(byte absence)
         {
-            using (SqlConnection con = new SqlConnection("Server=DESKTOP-B1TS7RO;Database=CRM_UniversityDB;Trusted_Connection=True;MultipleActiveResultSets=true"))
+            using (SqlConnection con = new SqlConnection(_connectionString))
             {
 
                 DataTable dt = new DataTable();
@@ -188,7 +189,7 @@ namespace CRM_University.Data.ExecuteComand
 
                 SqlCommand cmd = new SqlCommand("GetFrequenciesAllResult", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-
+                cmd.Parameters.AddWithValue("@absence", absence);
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -201,7 +202,7 @@ namespace CRM_University.Data.ExecuteComand
                     entity.Email = dr["Email"].ToString();
                     entity.FacultyName = dr["FacultyName"].ToString();
                     entity.GroupName = dr["GroupName"].ToString();
-                    entity.Frequency = (int)dr["Frequency"];
+                    entity.Absences = (int)dr["Absences"];
                     entityes.Add(entity);
                 }
 

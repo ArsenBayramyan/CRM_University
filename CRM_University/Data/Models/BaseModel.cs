@@ -15,6 +15,7 @@ namespace CRM_University.Data.Models
         public string StudentGender { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
+        public string Country { get; set; }
         public DateTime YearOfAdmission { get; set; }
         public DateTime CompletionYear { get; set; }
         public int MOG { get; set; }
@@ -24,9 +25,10 @@ namespace CRM_University.Data.Models
         public string FacultyName { get; set; }
         public string GroupName { get; set; }
         public string SubjectName { get; set; }
-        public int Frequency { get; set; }
+        public int Absences { get; set; }
         public string Email { get; set; }
-        public string Paid { get; set; }
+        public bool Paid { get; set; }
+        public StudentStatus Status { get; set; }
 
     }
 }

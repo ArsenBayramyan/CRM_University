@@ -1,7 +1,7 @@
 ﻿using CRM_University.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CRM_University.Data.Context
+namespace CRM_University.Data.Contexts
 {
     public class ApplicationDBContext:DbContext
     {
@@ -16,5 +16,8 @@ namespace CRM_University.Data.Context
         public DbSet<Examination> Examinations { get; set; }
         public DbSet<StudentSubject> StudentSubjects { get; set; }
         public DbSet<SentEmails> UnpaidStudents { get; set; }
+        public DbSet<MOG> MOGs { get; set; }
+        public DbSet<Frequency> Frequencies { get; set; }
+        public DbSet<NotReceived> NotReceiveds { get; set; }
     }
 }

@@ -1,0 +1,50 @@
+﻿@model FilterViewModel
+
+
+    <div class="text-center">
+        <p style="font-size:20px">Լիկվիդ մնացած ուսանողներ</p>
+    </div>
+    <div id="projects-tab" class="tab-pane active">
+        <div class="pd-20">
+            <table class="table table-striped table-hover" id="table">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.FilterList.FirstOrDefault(m => m.StudentId == m.StudentId).StudentFirstName)</th>
+                        <th>@Html.DisplayNameFor(model => model.FilterList.FirstOrDefault(m => m.StudentId == m.StudentId).StudentLastName)</th>
+                        <th>@Html.DisplayNameFor(model => model.FilterList.FirstOrDefault(m => m.StudentId == m.StudentId).Country)</th>
+                        <th>@Html.DisplayNameFor(model => model.FilterList.FirstOrDefault(m => m.StudentId == m.StudentId).City)</th>
+                        <th>@Html.DisplayNameFor(model => model.FilterList.FirstOrDefault(m => m.StudentId == m.StudentId).Address)</th>
+                        <th>@Html.DisplayNameFor(model => model.FilterList.FirstOrDefault(m => m.StudentId == m.StudentId).Email)</th>
+                        <th>@Html.DisplayNameFor(model => model.FilterList.FirstOrDefault(m => m.StudentId == m.StudentId).YearOfAdmission)</th>
+                        <th>@Html.DisplayNameFor(model => model.FilterList.FirstOrDefault(m => m.StudentId == m.StudentId).FacultyName)</th>
+                        <th>@Html.DisplayNameFor(model => model.FilterList.FirstOrDefault(m => m.StudentId == m.StudentId).GroupName)</th>
+                        <th>@Html.DisplayNameFor(model => model.FilterList.FirstOrDefault(m => m.StudentId == m.StudentId).Status)</th>
+
+                    </tr>
+                </thead>
+                @foreach (var student in Model.FilterList)
+                {
+                    <tbody>
+                        <tr>
+                            <td>@student.StudentFirstName</td>
+                            <td>@student.StudentLastName</td>
+                            <td>@student.Country</td>
+                            <td>@student.City</td>
+                            <td>@student.Address</td>
+                            <td>@student.Email</td>
+                            <td>@student.YearOfAdmission</td>
+                            <td>@student.FacultyName</td>
+                            <td>@student.GroupName</td>
+                            <td>@student.Status</td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+            <br />
+            @if (Model.FilterList.Count() > 0)
+            {
+                <button class="btn btn-outline-success" onclick="fnExcelReport('table','Քննական առարկայի արդյունքներ')">Ներբեռնել(.xls)</button>
+            }
+
+        </div>
+    </div>

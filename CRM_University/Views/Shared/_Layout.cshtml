@@ -1,48 +1,135 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CRM_University</title>
+    <title>@ViewData["Title"] - ՀԱՊՀ</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/table.css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/css/layout.css" rel="stylesheet" />
+    <link href="~/css/select2.min.css" rel="stylesheet" />
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CRM_University</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+    <div class="wrapper">
+        <div class="navigation">
+            <div class="brandWrapper">
+                <img src="@Url.Content("~/img/logo.png")" />
+                <span class="brandName">ՀԱՊՀ</span>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+            <ul class="menuItems">
+                <li class="item">
+                    <a asp-action="Students" asp-controller="Student" class="link">
+                        <span class="linkText">Ուսանողներ</span>
+                        <i class="fa fa-users"></i>
+                        <span class="title">Ուսանողներ</span>
+                    </a>
+                </li>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - CRM_University - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                <li class="item">
+                    <a asp-action="GetForFreeStudents" asp-controller="Student" class="link">
+                        <span class="linkText">Անվճար ուսանողներ</span>
+                        <i class="fa fa-credit-card" aria-hidden="true"></i>
+                        <span class="title">Անվճար ուսանողներ</span>
+                    </a>
+                </li>
+
+                <li class="item">
+                    <a asp-action="GetNotReceivedStudents" asp-controller="Student" class="link">
+                        <span class="linkText">Լիկվիդ մնացած ուսանողներ</span>
+                        <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                        <span class="title">Լիկվիդ մնացած ուսանողներ</span>
+                    </a>
+                </li>
+
+                <li class="item">
+                    <a asp-action="ExamResult" asp-controller="Student" class="link">
+                        <span class="linkText">Քննական առարկայի արդյունք</span>
+                        <i class="fa fa-list-alt" aria-hidden="true"></i>
+                        <span class="title">Քննական առարկայի արդյունք</span>
+                    </a>
+                </li>
+
+                <li class="item">
+                    <a asp-action="GetFrequencies" asp-controller="Student" class="link">
+                        <span class="linkText">Ուսանողների բացակայություններ</span>
+                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                        <span class="title">Ուսանողների բացակայություններ</span>
+                    </a>
+                </li>
+
+
+                <li class="item">
+                    <a asp-action="UnPaidStudents" asp-controller="Student" class="link">
+                        <span class="linkText">Ուսման վարձը չվճարած ուսանողներ</span>
+                        <i class="fa fa-money" aria-hidden="true"></i>
+                        <span class="title">Ուսման վարձը չվճարած ուսանողներ</span>
+                    </a>
+                </li>
+
+                <li class="item">
+                    <a asp-action="GetAnotherCountryStudents" asp-controller="Student" class="link">
+                        <span class="linkText">Արտերկի ուսանողներ</span>
+                        <i class="fa fa-globe" aria-hidden="true"></i>
+                        <span class="title">Արտերկի ուսանողներ</span>
+                    </a>
+                </li>
+
+                <li class="item">
+                    <a asp-action="GetAnotherCountryStudents" asp-controller="Student" class="link">
+                        <span class="linkText">Արտերկի ուսանողներ</span>
+                        <i class="fa fa-globe" aria-hidden="true"></i>
+                        <span class="title">Արտերկի ուսանողներ</span>
+                    </a>
+                </li>
+
+
+
+            </ul>
         </div>
-    </footer>
+        <div class="main">
+            <div class="headr">
+                <img src="@Url.Content("~/img/hamburger.svg.webp")" onclick="toggle()" class="toogle" />
+            </div>
+            <div class="mainPage" id="mainPage">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @RenderSection("Scripts", required: false)
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+    <script src="~/js/select2.js"></script>
+    <script type="text/javascript" src="~/js/layout.js"></script>
+    <script type="text/javascript">
+        function clearSession() {
+            sessionStorage.clear();
+        }
+
+        function check() {
+            const links = [...document.getElementsByClassName('item')];
+
+
+            var selectedItemIndex = sessionStorage.getItem('selectedItemIndex');
+            links.forEach(link => {
+
+                if ((links.indexOf(link) == selectedItemIndex)) {
+                    link.style.backgroundColor = 'blue'
+                }
+
+            })
+
+            links.forEach(link => link.addEventListener('click', function (e) {
+                sessionStorage.setItem('selectedItemIndex', links.indexOf(link))
+            }))
+        };
+
+        check();
+    </script>
 </body>
 </html>

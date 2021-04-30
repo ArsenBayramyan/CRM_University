@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CRM_University.Data.Models
+namespace CRM_University.Models.ViewModels
 {
-    public class FilterModel
+    public class FilterViewModel
     {
-        public List<BaseModel> FilterList { get; set; }
+        public List<BaseViewModel> FilterList { get; set; }
         public int Id { get; set; }
     }
 }

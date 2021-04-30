@@ -1,5 +1,5 @@
 ﻿using CRM_University.Core.Interfaces;
-using CRM_University.Data.Context;
+using CRM_University.Data.Contexts;
 
 namespace CRM_University.Data.Repositories
 {
@@ -14,6 +14,8 @@ namespace CRM_University.Data.Repositories
         private SubjectRepository _subjectRepository;
         private TutionRepository _tutionRepository;
         private UnpaidStudentsRepository _unpaidStudentRepository;
+        private FrequenciyRepository _frequenciyRepository;
+        private NotReceivedRepository _notReceivedRepository;
         public UnitOfWorkRepository(ApplicationDBContext context)
         {
             _studentRepository = new StudentRepository(context);
@@ -25,6 +27,8 @@ namespace CRM_University.Data.Repositories
             _subjectRepository = new SubjectRepository(context);
             _tutionRepository = new TutionRepository(context);
             _unpaidStudentRepository = new UnpaidStudentsRepository(context);
+            _frequenciyRepository = new FrequenciyRepository(context);
+            _notReceivedRepository = new NotReceivedRepository(context);
         }
 
         public StudentRepository StudentRepository => _studentRepository;
@@ -36,6 +40,8 @@ namespace CRM_University.Data.Repositories
         public SubjectRepository SubjectRepository => _subjectRepository;
         public TutionRepository TutionRepository => _tutionRepository;
         public UnpaidStudentsRepository UnpaidStudentsRepository => _unpaidStudentRepository;
+        public FrequenciyRepository FrequenciyRepository => _frequenciyRepository;
+        public NotReceivedRepository NotReceivedRepository => _notReceivedRepository;
 
     }
 }

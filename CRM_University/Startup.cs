@@ -1,7 +1,7 @@
 using AutoMapper;
 using CRM_University.Core.Interfaces;
 using CRM_University.Core.Jobs;
-using CRM_University.Data.Context;
+using CRM_University.Data.Contexts;
 using CRM_University.Data.Models;
 using CRM_University.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -54,7 +54,7 @@ namespace CRM_University
             {
                 routes.MapRoute(
                    name: "default",
-                   template: "{controller=Home}/{action=Index}/{id?}");
+                   template: "{controller=Student}/{action=Index}/{id?}");
             });
         }
     }

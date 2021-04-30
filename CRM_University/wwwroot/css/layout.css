@@ -1,0 +1,180 @@
+﻿body, * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.table tr td {
+    background-color: white !important;
+}
+
+.wrapper {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+}
+
+.navigation {
+    width: 20%;
+    height: 100%;
+    transition: width 1s;
+    -webkit-box-shadow: 4px 0px 8px 0px rgba(0,0,0, .4);
+    box-shadow: 4px 0px 8px 0px rgba(0,0,0, .4);
+    background-color: #083052;
+}
+
+.toogle {
+    width: 30px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.main {
+    height: 100%;
+    width: 100%;
+    height: calc(100% - 30px);
+    overflow-y: auto;
+}
+
+    .main .headr {
+        height: 50px;
+        border-bottom: 1px solid black;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        justify-content: space-between;
+        background-color: #157f8a;
+    }
+
+        .main .headr .userName {
+            color: black;
+        }
+
+    .main .mainPage {
+        height: calc(100% - 50px);
+        padding: 20px 35px;
+        overflow-y: auto;
+        background-color: mintcream
+    }
+
+.menuItems li:hover {
+    -webkit-box-shadow: -2px 2px 15px 0px rgba(0,0,0,0.41);
+    box-shadow: -2px 2px 15px 0px rgba(0,0,0,0.41);
+    width: 100%;
+    color: white;
+}
+
+.menuItems li i {
+    opacity: .7;
+    margin-right: 12px;
+    color: white;
+}
+
+.menuItems {
+    width: 100%;
+    margin-top: 50px;
+}
+
+    .menuItems li {
+        padding: 7px 12px;
+        cursor: pointer;
+        position: relative;
+        list-style: none;
+        display: flex;
+        align-items: center;
+    }
+
+        .menuItems li.closed:hover .title {
+            display: block;
+        }
+
+        .menuItems li span.title {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 49px;
+            background-color: white;
+            padding: 7px 12px;
+            border: 1px solid rgba(0,0,0, .5);
+            border-radius: 7px;
+            white-space: nowrap;
+            color: black;
+        }
+
+    .menuItems a {
+        list-style: none;
+        text-decoration: none;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+        .menuItems a .linkText {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            width: 80%;
+        }
+
+.navigation .brandWrapper {
+    padding: 0 6px;
+    margin: 10px 0 20px 0;
+    font-size: 21px;
+    display: flex;
+    justify-content: center;
+    color: white;
+}
+
+.brandWrapper img {
+    margin: 0 13px;
+    width: 30px;
+    display: block;
+}
+
+.userInfo {
+    position: relative;
+}
+
+    .userInfo img {
+        border-radius: 50%;
+        width: 42px;
+        height: 41px;
+        margin-right: 8px;
+    }
+
+    .userInfo .userName {
+        color: aliceblue !important;
+    }
+
+
+#toogleLogOut {
+    cursor: pointer;
+    color: aliceblue;
+}
+
+
+.userInfo .logOut {
+    position: absolute;
+    padding: 7px 0px;
+    border: .5px solid rgba(0,0,0, .6);
+    border-radius: 4px;
+    top: 30px;
+    right: 0;
+    display: none;
+    width: 115px;
+    background-color: white;
+}
+
+.logOut a {
+    display: block;
+    color: black;
+    text-decoration: none;
+    padding: 5px 7px;
+    width: 100%;
+}
+
+    .logOut a:hover {
+        background-color: rgba(0,0,0, .1);
+    }

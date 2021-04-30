@@ -1,5 +1,5 @@
 ﻿using CRM_University.Core.Interfaces;
-using CRM_University.Data.Context;
+using CRM_University.Data.Contexts;
 using CRM_University.Data.Models;
 using System;
 using System.Collections.Generic;

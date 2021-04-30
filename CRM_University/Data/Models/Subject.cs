@@ -10,7 +10,8 @@ namespace CRM_University.Data.Models
     {
         [Key]
         public int SubjectId { get; set; }
-        public string Name { get; set; }
+        public string SubjectName { get; set; }
+        public bool AssessmentCheck { get; set; }
 
     }
 }

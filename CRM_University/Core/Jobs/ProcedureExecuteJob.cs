@@ -1,5 +1,5 @@
 ﻿using CRM_University.Core.Enums;
-using CRM_University.Data.Context;
+using CRM_University.Data.Contexts;
 using CRM_University.Data.ExecuteComand;
 using CRM_University.Data.Models;
 using CRM_University.Data.Repositories;
@@ -14,7 +14,7 @@ namespace CRM_University.Core.Jobs
     {
         public Task Execute(IJobExecutionContext context)
         {
-            var students = StoredProcedure.GetFrequenciesAllResult();
+            var students = StoredProcedure.GetFrequenciesAllResult(80);
             var contextOptions = new DbContextOptionsBuilder<ApplicationDBContext>()
                 .UseSqlServer(@"Server=DESKTOP-B1TS7RO;Database=CRM_UniversityDB;Trusted_Connection=True;MultipleActiveResultSets=true")
                 .Options;

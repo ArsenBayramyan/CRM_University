@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using CRM_University.Data.Models;
+using CRM_University.Models.ViewModels;
 
 namespace CRM_University.Controllers
 {
@@ -33,14 +35,6 @@ namespace CRM_University.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Action(int a)
-        {
-            StudentBL studentBL = new StudentBL(_unitOfWork);
-            var dalFilter = studentBL.GetExamResult("Matanaliz",100);
-            var filter = this._mapper.Map<Data.Models.FilterModel, FilterModel>(dalFilter);
-            return View(filter);
-        }
         public ActionResult DownloadExcel(int id)
         {
             byte[] array = CacheDictionary.dictioanry[key: id];

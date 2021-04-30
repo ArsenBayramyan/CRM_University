@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CRM_University.Models;
+using CRM_University.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace CRM_University.Core.Profiles
         public BaseModelProfile()
         {
             var t = new Data.Models.BaseModel();
-            this.CreateMap< Data.Models.BaseModel,BaseModel>();
+            this.CreateMap< Data.Models.BaseModel,BaseViewModel>();
         }
     }
 }

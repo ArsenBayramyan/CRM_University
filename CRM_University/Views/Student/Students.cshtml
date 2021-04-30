@@ -1,0 +1,45 @@
+﻿@model StudentViewModel
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Students">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.FacultyName)
+                <select class="form-control" id="FacultyName" name="FacultyName">
+                    <option></option>
+                    @foreach (var type in Model.Faculties)
+                    {
+                        <option value="@type.FacultyName">@type.FacultyName</option>
+                    }
+                </select>
+                <span asp-validation-for="FacultyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.GroupName)
+                <select class="form-control" id="GroupName" name="GroupName">
+                    <option></option>
+                    @foreach (var type in Model.Groups)
+                    {
+                        <option value="@type.GroupName">@type.GroupName</option>
+                    }
+                </select>
+                <span asp-validation-for="GroupName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Փնտրել" class="btn btn-outline-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#FacultyName").select2();
+        $("#GroupName").select2();
+    });
+    </script>
+}

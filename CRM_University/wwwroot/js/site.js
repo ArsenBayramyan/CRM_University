@@ -1,4 +1,33 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿
+function fnExcelReport(tableId, tableName) {
+    var tab_text = "<table border='2px'><tr bgcolor='#87AFC6'>";
+    var textRange; var j = 0;
+    tab = document.getElementById(tableId); // id of table
 
-// Write your JavaScript code.
+    for (j = 0; j < tab.rows.length; j++) {
+        tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
+    }
+
+    tab_text = tab_text + "</table>";
+    tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+    tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
+    tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf("MSIE ");
+    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+    {
+        txtArea1.document.open("txt/html", "replace");
+        txtArea1.document.write(tab_text);
+        txtArea1.document.close();
+        txtArea1.focus();
+        sa = txtArea1.document.execCommand("SaveAs", true, tableName);
+        return (sa);
+    }
+    else {//other browser not tested on IE 11
+
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
+        element.download = tableName;
+        element.click();
+    }
+}
