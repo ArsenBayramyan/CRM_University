@@ -34,18 +34,18 @@ namespace CRM_University.Controllers
             var subjects = _unitOfWork.SubjectRepository.List().Where(s=>s.AssessmentCheck==false);
             var faculties = _unitOfWork.FacultyRepository.List();
             var groups = _unitOfWork.GroupRepository.List();
-
+            var students = _unitOfWork.StudentRepository.List();
             var subjectsList = _mapper.Map<IEnumerable<Subject>, IEnumerable<SubjectViewModel>>(subjects);
 
 
-            return View(new SubjectViewModel { Subjects=subjectsList,Faculties=faculties,Groups=groups});
+            return View(new SubjectViewModel { Subjects=subjectsList,Faculties=faculties,Groups=groups,Students=students});
         }
 
         [HttpPost]
         public IActionResult ExamResult(SubjectViewModel subjectViewModel)
         {
             StudentBL studentBL = new StudentBL(_unitOfWork);
-            var dalFilter = studentBL.GetExamResult(subjectViewModel.SubjectName,subjectViewModel.FacultyName,subjectViewModel.GroupName, subjectViewModel.Result);
+            var dalFilter = studentBL.GetExamResult(subjectViewModel.SubjectName,subjectViewModel.FacultyName,subjectViewModel.GroupName, subjectViewModel.StudentId, subjectViewModel.Result);
             var filter = this._mapper.Map<Filter, FilterViewModel>(dalFilter);
             return View("~/Views/Student/ExamResultPost.cshtml", filter);
         }
@@ -109,10 +109,38 @@ namespace CRM_University.Controllers
         public IActionResult Students(StudentViewModel studentViewModel)
         {
             StudentBL studentBL = new StudentBL(_unitOfWork);
-            var students = studentBL.GetStudents(studentViewModel.FacultyName,studentViewModel.GroupName);
+           
+            var students = studentBL.GetStudents(studentViewModel.FacultyName, studentViewModel.GroupName);
             var studentsViewModel = this._mapper.Map<Filter, FilterViewModel>(students);
 
             return View("~/Views/Student/StudentsPost.cshtml", studentsViewModel);
+        }
+
+        [HttpGet]
+        public JsonResult GetStudentsByGroup(string groupName)
+        {
+            var group = _unitOfWork.GroupRepository.List().FirstOrDefault(g => g.GroupName == groupName);
+            var students = _unitOfWork.StudentRepository.List().Where(s => s.GroupId == group.GroupId);
+
+            return Json(students);
+        }
+        [HttpGet]
+        public JsonResult GetStudents()
+        {
+            return Json(_unitOfWork.StudentRepository.List());
+        }
+        [HttpGet]
+        public JsonResult GetGroupsByFaculty(string facultyName)
+        {
+            var faculty = _unitOfWork.FacultyRepository.List().FirstOrDefault(f => f.FacultyName == facultyName);
+            var groups = _unitOfWork.GroupRepository.List().Where(g => g.FacultyId == faculty.FacultyId);
+
+            return Json(groups);
+        }
+        [HttpGet]
+        public JsonResult GetGroups()
+        {
+            return Json(_unitOfWork.GroupRepository.List());
         }
 
         [HttpGet]
@@ -161,6 +189,25 @@ namespace CRM_University.Controllers
             var studentsViewModel = this._mapper.Map<Filter, FilterViewModel>(students);
 
             return View("~/Views/Student/MogPost.cshtml",studentsViewModel);
+        }
+
+        [HttpGet]
+        public IActionResult GetDiscountStudents()
+        {
+            var faculties = _unitOfWork.FacultyRepository.List();
+            var groups = _unitOfWork.GroupRepository.List();
+            var students = _unitOfWork.StudentRepository.List();
+
+            return View(new StudentViewModel { Faculties = faculties, Groups = groups, Students = students });
+        }
+        [HttpPost]
+        public IActionResult GetDiscountStudents(StudentViewModel studentViewModel)
+        {
+            StudentBL studentBL = new StudentBL(_unitOfWork);
+            var students = studentBL.GetDiscountStudents(studentViewModel.FacultyName, studentViewModel.GroupName, studentViewModel.StudentId, studentViewModel.StartDate, studentViewModel.EndDate);
+            var studentsViewModel = this._mapper.Map<Filter, FilterViewModel>(students);
+            
+            return View("~/Views/Student/GetDiscountStudentsPost.cshtml", studentsViewModel);
         }
     }
 }

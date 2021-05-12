@@ -8,7 +8,7 @@
             <div class="form-group">
                 @Html.DisplayNameFor(model => model.FacultyName)
                 <select class="form-control" id="FacultyName" name="FacultyName">
-                    <option></option>
+                    <option>---- ընտրել ----</option>
                     @foreach (var type in Model.Faculties)
                     {
                         <option value="@type.FacultyName">@type.FacultyName</option>
@@ -19,7 +19,7 @@
             <div class="form-group">
                 @Html.DisplayNameFor(model => model.GroupName)
                 <select class="form-control" id="GroupName" name="GroupName">
-                    <option></option>
+                    <option>---- ընտրել ----</option>
                     @foreach (var type in Model.Groups)
                     {
                         <option value="@type.GroupName">@type.GroupName</option>
@@ -40,6 +40,40 @@
     $(document).ready(function () {
         $("#FacultyName").select2();
         $("#GroupName").select2();
+        $("#FacultyName").change(function () {
+            var facultyName = $("#FacultyName").val();
+            if (facultyName != "---- ընտրել ----") {
+                $.ajax({
+                    url: `/Student/GetGroupsByFaculty/?facultyName=${facultyName}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(facultyName);
+                        console.log(data);
+                        $("#GroupName option").remove();
+                        data.forEach(group => {
+                            $('#GroupName').append($('<option></option>').text(`${group.groupName}`).val(group.groupName));
+                        })
+
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    url: "/Student/GetGroups",
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $("#GroupName option").remove();
+                        $('#GroupName').append($('<option></option>').text('---- ընտրել ----').val('---- ընտրել ----'));
+                        data.forEach(group => {
+                            $('#GroupName').append($('<option></option>').text(`${group.groupName}`).val(group.groupName));
+                        });
+                    }
+
+                })
+            }
+        })
     });
     </script>
 }

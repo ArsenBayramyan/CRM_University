@@ -15,7 +15,9 @@ namespace CRM_University.Models.ViewModels
         public string GroupName { get; set; }
         [Display(Name = "ՈՒսանող")]
         public int StudentId { get; set; }
+        [Display(Name = "Ուսումնական փուլի սկիզբ")]
         public DateTime StartDate { get; set; }
+        [Display(Name = "Ուսումնական փուլի ավարտ")]
         public DateTime EndDate { get; set; }
         public IEnumerable<Faculty> Faculties { get; set; }
         public IEnumerable<Group> Groups { get; set; }

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/table.css" />
+    <link rel="shortcut icon" href="~/img/logo.png" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="~/css/layout.css" rel="stylesheet" />
@@ -18,7 +19,9 @@
     <div class="wrapper">
         <div class="navigation">
             <div class="brandWrapper">
-                <img src="@Url.Content("~/img/logo.png")" />
+                <a asp-action="Index" asp-controller="Student" onclick="clearSession()">
+                    <img src="@Url.Content("~/img/logo.png")" />
+                </a>
                 <span class="brandName">ՀԱՊՀ</span>
             </div>
             <ul class="menuItems">
@@ -82,12 +85,18 @@
                 <li class="item">
                     <a asp-action="Mog" asp-controller="Student" class="link">
                         <span class="linkText">ՄՈԳ</span>
-                        <i class="fa fa-globe" aria-hidden="true"></i>
+                        <i class="fa fa-modx" aria-hidden="true"></i>
                         <span class="title">ՄՈԳ</span>
                     </a>
                 </li>
 
-
+                <li class="item">
+                    <a asp-action="GetDiscountStudents" asp-controller="Student" class="link">
+                        <span class="linkText">Զեղչից օգտվող ուսանողներ</span>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <span class="title">Զեղչից օգտվող ուսանողներ</span>
+                    </a>
+                </li>
 
             </ul>
         </div>

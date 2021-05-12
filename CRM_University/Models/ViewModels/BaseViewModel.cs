@@ -70,5 +70,9 @@ namespace CRM_University.Models.ViewModels
         public bool Paid { get; set; }
         [Display(Name ="Կարգավիճակ")]
         public StudentStatus Status { get; set; }
+        [Display(Name = "Զեղչի հաստատման ամսաթիվը")]
+        public DateTime DiscountDate { get; set; }
+        [Display(Name = "Զեղչի անունը")]
+        public string DiscountName { get; set; }
     }
 }

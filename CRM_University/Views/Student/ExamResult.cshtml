@@ -8,7 +8,7 @@
             <div class="form-group">
                 @Html.DisplayNameFor(model => model.SubjectName)
                 <select class="form-control" id="SubjectName" name="SubjectName">
-                    <option>----Ընտրել----</option>
+                    <option>---- ընտրել ----</option>
                     @foreach (var type in Model.Subjects)
                     {
                         <option value="@type.SubjectName">@type.SubjectName</option>
@@ -19,7 +19,7 @@
             <div class="form-group">
                 @Html.DisplayNameFor(model => model.FacultyName)
                 <select class="form-control" id="FacultyName" name="FacultyName">
-                    <option></option>
+                    <option>---- ընտրել ----</option>
                     @foreach (var type in Model.Faculties)
                     {
                         <option value="@type.FacultyName">@type.FacultyName</option>
@@ -30,13 +30,24 @@
             <div class="form-group">
                 @Html.DisplayNameFor(model => model.GroupName)
                 <select class="form-control" id="GroupName" name="GroupName">
-                    <option></option>
+                    <option>---- ընտրել ----</option>
                     @foreach (var type in Model.Groups)
                     {
                         <option value="@type.GroupName">@type.GroupName</option>
                     }
                 </select>
                 <span asp-validation-for="GroupName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.StudentId)
+                <select class="form-control" id="StudentId" name="StudentId">
+                    <option>---- ընտրել ----</option>
+                    @foreach (var type in Model.Students)
+                    {
+                        <option value="@type.StudentId">@type.FirstName @type.LastName</option>
+                    }
+                </select>
+                <span asp-validation-for="StudentId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Result" class="control-label"></label>
@@ -57,6 +68,73 @@
         $("#SubjectName").select2();
         $("#FacultyName").select2();
         $("#GroupName").select2();
+        $("#StudentId").select2();
+        $("#FacultyName").change(function () {
+            var facultyName = $("#FacultyName").val();
+            if (facultyName != "---- ընտրել ----") {
+                $.ajax({
+                    url: `/Student/GetGroupsByFaculty/?facultyName=${facultyName}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(facultyName);
+                        console.log(data);
+                        $("#GroupName option").remove();
+                        data.forEach(group => {
+                            $('#GroupName').append($('<option></option>').text(`${group.groupName}`).val(group.groupName));
+                        })
+
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    url: "/Student/GetGroups",
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $("#GroupName option").remove();
+                        $('#GroupName').append($('<option></option>').text('---- ընտրել ----').val('---- ընտրել ----'));
+                        data.forEach(group => {
+                            $('#GroupName').append($('<option></option>').text(`${group.groupName}`).val(group.groupName));
+                        });
+                    }
+
+                })
+            }
+        })
+        $("#GroupName").change(function () {
+            var groupName = $("#GroupName").val();
+            if (groupName != "---- ընտրել ----") {
+                $.ajax({
+                    url: `/Student/GetStudentsByGroup/?groupName=${groupName}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $("#StudentId option").remove();
+                        data.forEach(student => {
+                            $('#StudentId').append($('<option></option>').text(`${student.firstName} ${student.lastName}`).val(student.studentId));
+                        })
+
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    url: "/Student/GetStudents",
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $("#StudentId option").remove();
+                        $('#StudentId').append($('<option></option>').text('---- ընտրել ----').val(0));
+                        data.forEach(student => {
+                            $('#StudentId').append($('<option></option>').text(`${student.firstName} ${student.lastName}`).val(student.studentId));
+                        });
+                    }
+
+                })
+            }
+        })
     });
 </script>
 }

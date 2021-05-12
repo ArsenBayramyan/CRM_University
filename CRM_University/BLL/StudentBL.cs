@@ -1,15 +1,8 @@
-﻿using ClosedXML.Excel;
-using CRM_University.Core;
-using CRM_University.Data.ExecuteComand;
-using CRM_University.Data.Models;
+﻿using CRM_University.Data.Models;
 using CRM_University.Data.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
-using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using DocumentFormat.OpenXml.Spreadsheet;
 using System.Linq;
 
 namespace CRM_University.BLL
@@ -39,7 +32,7 @@ namespace CRM_University.BLL
             return table;
         }
 
-        public Data.Models.Filter GetExamResult(string subject, string facultyName, string groupName, int result)
+        public Data.Models.Filter GetExamResult(string subject, string facultyName, string groupName,int studentId, int result)
         {
             var students = from exam in UOW.ExaminationRepository.List()
                            join s in UOW.StudentRepository.List() on exam.StudentId equals s.StudentId
@@ -56,20 +49,28 @@ namespace CRM_University.BLL
                                SubjectName = sub.SubjectName,
                                ExaminationResult = exam.Result
                            };
-            if (facultyName != null)
+            if (facultyName != "---- ընտրել ----")
             {
                 students = students.Where(f => f.FacultyName == facultyName);
             }
-            if (groupName != null)
+            if (groupName != "---- ընտրել ----")
             {
                 students = students.Where(g => g.GroupName == groupName);
             }
+            if (studentId != 0)
+            {
+                students = students.Where(s => s.StudentId == studentId);
+            }
+
             if (result != default(int))
             {
                 students = students.Where(s => s.ExaminationResult == result);
 
             }
-            students = students.Where(s => s.SubjectName == subject);
+            if (subject != "---- ընտրել ----")
+            {
+                students = students.Where(s => s.SubjectName == subject);
+            }
             return new Data.Models.Filter { FilterList = students.ToList() };
         }
 
@@ -90,11 +91,11 @@ namespace CRM_University.BLL
                           Absences = UOW.FrequenciyRepository.List().GroupBy(x => x.StudentId).First(x => x.Key == s.StudentId).Sum(x => x.Absences)
                       }).GroupBy(x => x.StudentId).Select(x => x.FirstOrDefault());
 
-            if (facultyName != null)
+            if (facultyName != "---- ընտրել ----")
             {
                 ex = ex.Where(f => f.FacultyName == facultyName);
             }
-            if (groupName != null)
+            if (groupName != "---- ընտրել ----")
             {
                 ex = ex.Where(g => g.GroupName == groupName);
             }
@@ -122,11 +123,11 @@ namespace CRM_University.BLL
                           Paid = st.Paid,
                       }).GroupBy(x => x.StudentId).Select(x => x.FirstOrDefault());
 
-            if (facultyName != null)
+            if (facultyName != "---- ընտրել ----")
             {
                 ex = ex.Where(f => f.FacultyName == facultyName);
             }
-            if (groupName != null)
+            if (groupName != "---- ընտրել ----")
             {
                 ex = ex.Where(g => g.GroupName == groupName);
             }
@@ -178,15 +179,15 @@ namespace CRM_University.BLL
                                GroupName = g.GroupName,
                                Status = st.Status
                            };
-            if (facultyName != null)
+            if (facultyName != "---- ընտրել ----")
             {
                 students = students.Where(f => f.FacultyName == facultyName);
             }
-            if (groupName != null)
+            if (groupName != "---- ընտրել ----")
             {
                 students = students.Where(g => g.GroupName == groupName);
             }
-
+           
             return new Data.Models.Filter { FilterList = students.ToList() };
         }
 
@@ -209,11 +210,11 @@ namespace CRM_University.BLL
                                GroupName = g.GroupName,
                                Status = st.Status
                            };
-            if (facultyName != null)
+            if (facultyName != "---- ընտրել ----")
             {
                 students = students.Where(f => f.FacultyName == facultyName);
             }
-            if (groupName != null)
+            if (groupName != "---- ընտրել ----")
             {
                 students = students.Where(g => g.GroupName == groupName);
             }
@@ -275,6 +276,39 @@ namespace CRM_University.BLL
 
             return new Data.Models.Filter { FilterList = students.ToList() };
 
+        }
+
+        public Data.Models.Filter GetDiscountStudents(string facultyName, string groupName, int studentId, DateTime StartDate, DateTime EndDate)
+        {
+            var students = from dis in UOW.DiscountStudentRepository.List()
+                           join st in UOW.StudentRepository.List() on dis.StudentId equals st.StudentId
+                           join g in UOW.GroupRepository.List() on st.GroupId equals g.GroupId
+                           join f in UOW.FacultyRepository.List() on g.FacultyId equals f.FacultyId
+                           select new BaseModel
+                           {
+                               StudentId = st.StudentId,
+                               StudentFirstName = st.FirstName,
+                               StudentLastName = st.LastName,
+                               DiscountName=dis.DiscountName,
+                               DiscountDate = dis.DiscountDate,
+                               FacultyName = f.FacultyName,
+                               GroupName = g.GroupName,
+                           };
+
+            if (facultyName != "---- ընտրել ----")
+            {
+                students = students.Where(f => f.FacultyName == facultyName);
+            }
+            if (groupName != "---- ընտրել ----")
+            {
+                students = students.Where(g => g.GroupName == groupName);
+            }
+            if (studentId!=0)
+            {
+                students = students.Where(s => s.StudentId == studentId);
+            }
+
+            return new Data.Models.Filter { FilterList = students.ToList() };
         }
     }
 

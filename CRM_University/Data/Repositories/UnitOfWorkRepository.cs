@@ -16,6 +16,7 @@ namespace CRM_University.Data.Repositories
         private UnpaidStudentsRepository _unpaidStudentRepository;
         private FrequenciyRepository _frequenciyRepository;
         private NotReceivedRepository _notReceivedRepository;
+        private DiscountStudentRepository _discountStudentRepository;
         public UnitOfWorkRepository(ApplicationDBContext context)
         {
             _studentRepository = new StudentRepository(context);
@@ -29,6 +30,7 @@ namespace CRM_University.Data.Repositories
             _unpaidStudentRepository = new UnpaidStudentsRepository(context);
             _frequenciyRepository = new FrequenciyRepository(context);
             _notReceivedRepository = new NotReceivedRepository(context);
+            _discountStudentRepository = new DiscountStudentRepository(context);
         }
 
         public StudentRepository StudentRepository => _studentRepository;
@@ -42,6 +44,7 @@ namespace CRM_University.Data.Repositories
         public UnpaidStudentsRepository UnpaidStudentsRepository => _unpaidStudentRepository;
         public FrequenciyRepository FrequenciyRepository => _frequenciyRepository;
         public NotReceivedRepository NotReceivedRepository => _notReceivedRepository;
+        public DiscountStudentRepository DiscountStudentRepository => _discountStudentRepository;
 
     }
 }

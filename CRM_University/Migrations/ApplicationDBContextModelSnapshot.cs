@@ -40,6 +40,27 @@ namespace CRM_University.Migrations
                     b.ToTable("Assessments");
                 });
 
+            modelBuilder.Entity("CRM_University.Data.Models.DiscountStudent", b =>
+                {
+                    b.Property<int>("DiscountStudentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DiscountDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DiscountName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DiscountStudentId");
+
+                    b.ToTable("DiscountStudents");
+                });
+
             modelBuilder.Entity("CRM_University.Data.Models.Examination", b =>
                 {
                     b.Property<int>("ExaminationId")

@@ -19,5 +19,6 @@ namespace CRM_University.Data.Contexts
         public DbSet<MOG> MOGs { get; set; }
         public DbSet<Frequency> Frequencies { get; set; }
         public DbSet<NotReceived> NotReceiveds { get; set; }
+        public DbSet<DiscountStudent> DiscountStudents { get; set; }
     }
 }

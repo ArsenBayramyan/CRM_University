@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRM_University.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20210426072612_AddFrequenciesTable")]
-    partial class AddFrequenciesTable
+    [Migration("20210512120713_addDiscountStude")]
+    partial class addDiscountStude
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,12 +42,36 @@ namespace CRM_University.Migrations
                     b.ToTable("Assessments");
                 });
 
+            modelBuilder.Entity("CRM_University.Data.Models.DiscountStudent", b =>
+                {
+                    b.Property<int>("DiscountStudentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DiscountDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DiscountName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DiscountStudentId");
+
+                    b.ToTable("DiscountStudents");
+                });
+
             modelBuilder.Entity("CRM_University.Data.Models.Examination", b =>
                 {
                     b.Property<int>("ExaminationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("ExaminationDay")
+                        .HasColumnType("datetime2");
 
                     b.Property<byte>("Result")
                         .HasColumnType("tinyint");
@@ -88,13 +112,13 @@ namespace CRM_University.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<byte>("Absecnes")
+                    b.Property<byte>("Absences")
                         .HasColumnType("tinyint");
 
-                    b.Property<int>("SubjectId")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
                     b.HasKey("FrequencyId");
@@ -141,6 +165,27 @@ namespace CRM_University.Migrations
                     b.ToTable("MOGs");
                 });
 
+            modelBuilder.Entity("CRM_University.Data.Models.NotReceived", b =>
+                {
+                    b.Property<int>("NotReceivedId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FacultyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("NotReceivedId");
+
+                    b.ToTable("NotReceiveds");
+                });
+
             modelBuilder.Entity("CRM_University.Data.Models.SentEmails", b =>
                 {
                     b.Property<int>("StudentId")
@@ -178,6 +223,9 @@ namespace CRM_University.Migrations
                     b.Property<DateTime>("CompletionYear")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -192,6 +240,12 @@ namespace CRM_University.Migrations
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Paid")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("YearOfAdmission")
                         .HasColumnType("datetime2");

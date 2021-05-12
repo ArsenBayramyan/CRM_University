@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRM_University.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20210430131954_UpdateExamTable")]
-    partial class UpdateExamTable
+    [Migration("20210512121217_addDiolki")]
+    partial class addDiolki
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,6 +40,27 @@ namespace CRM_University.Migrations
                     b.HasKey("AssessmentId");
 
                     b.ToTable("Assessments");
+                });
+
+            modelBuilder.Entity("CRM_University.Data.Models.DiscountStudent", b =>
+                {
+                    b.Property<int>("DiscountStudentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DiscountDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DiscountName")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DiscountStudentId");
+
+                    b.ToTable("DiscountStudents");
                 });
 
             modelBuilder.Entity("CRM_University.Data.Models.Examination", b =>

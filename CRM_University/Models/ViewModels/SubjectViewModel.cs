@@ -18,9 +18,12 @@ namespace CRM_University.Models.ViewModels
         public string FacultyName { get; set; }
         [Display(Name = "Խումբ")]
         public string GroupName { get; set; }
+        [Display(Name = "Ուսանող")]
+        public int StudentId { get; set; }
         public IEnumerable<Faculty> Faculties { get; set; }
         public IEnumerable<Group> Groups { get; set; }
         public IEnumerable<SubjectViewModel> Subjects { get; set; }
+        public IEnumerable<Student> Students { get; set; }
 
     }
 }

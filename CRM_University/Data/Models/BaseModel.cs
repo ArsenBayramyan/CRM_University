@@ -29,6 +29,8 @@ namespace CRM_University.Data.Models
         public int Absences { get; set; }
         public string Email { get; set; }
         public bool Paid { get; set; }
+        public DateTime DiscountDate { get; set; }
+        public string DiscountName { get; set; }
         public StudentStatus Status { get; set; }
 
     }

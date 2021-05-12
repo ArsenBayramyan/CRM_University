@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRM_University.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20210427053330_AddNotReceivedTable")]
-    partial class AddNotReceivedTable
+    [Migration("20210512121128_addDi")]
+    partial class addDi
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,6 +48,9 @@ namespace CRM_University.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("ExaminationDay")
+                        .HasColumnType("datetime2");
 
                     b.Property<byte>("Result")
                         .HasColumnType("tinyint");
@@ -154,7 +157,7 @@ namespace CRM_University.Migrations
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.HasKey("NotReceivedId");
