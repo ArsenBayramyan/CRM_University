@@ -99,6 +99,7 @@
             border-radius: 7px;
             white-space: nowrap;
             color: black;
+            z-index: 555;
         }
 
     .menuItems a {

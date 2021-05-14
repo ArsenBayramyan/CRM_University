@@ -9,7 +9,7 @@
                 @Html.DisplayNameFor(model => model.FacultyName)
                 <select class="form-control" id="FacultyName" name="FacultyName">
                     <option>---- ընտրել ----</option>
-                    @foreach (var type in Model.Faculties)
+                    @foreach (var type in Model.Faculties.OrderBy(f=>f.FacultyName))
                     {
                         <option value="@type.FacultyName">@type.FacultyName</option>
                     }
@@ -18,9 +18,10 @@
             </div>
             <div class="form-group">
                 @Html.DisplayNameFor(model => model.GroupName)
+                <br />
                 <select class="form-control" id="GroupName" name="GroupName">
                     <option>---- ընտրել ----</option>
-                    @foreach (var type in Model.Groups)
+                    @foreach (var type in Model.Groups.OrderBy(g => g.GroupName))
                     {
                         <option value="@type.GroupName">@type.GroupName</option>
                     }
@@ -29,9 +30,10 @@
             </div>
             <div class="form-group">
                 @Html.DisplayNameFor(model => model.StudentId)
+                <br />
                 <select class="form-control" id="StudentId" name="StudentId">
                     <option>---- ընտրել ----</option>
-                    @foreach (var type in Model.Students)
+                    @foreach (var type in Model.Students.OrderBy(s => s.FirstName).ThenBy(s => s.LastName))
                     {
                         <option value="@type.StudentId">@type.FirstName @type.LastName</option>
                     }
@@ -40,16 +42,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" type="date" />
+                <input asp-for="StartDate" class="form-control" value="" type="date" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" type="date"/>
+                <input asp-for="EndDate" class="form-control" value="" type="date" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Տեսնել" class="btn btn-outline-success" />
+                <button type="submit" class="btn btn-success w-25" title="Փնտրել" asp-action="Mog">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
             </div>
         </form>
     </div>
@@ -71,6 +75,7 @@
                     dataType: 'json',
                     success: function (data) {
                         $("#GroupName option").remove();
+                        $('#GroupName').append($('<option></option>').text('---- ընտրել ----').val('---- ընտրել ----'));
                         data.forEach(group => {
                             $('#GroupName').append($('<option></option>').text(`${group.groupName}`).val(group.groupName));
                         })
@@ -103,6 +108,7 @@
                     dataType: 'json',
                     success: function (data) {
                         $("#StudentId option").remove();
+                        $('#StudentId').append($('<option></option>').text('---- ընտրել ----').val(0));
                         data.forEach(student => {
                             $('#StudentId').append($('<option></option>').text(`${student.firstName} ${student.lastName}`).val(student.studentId));
                         })

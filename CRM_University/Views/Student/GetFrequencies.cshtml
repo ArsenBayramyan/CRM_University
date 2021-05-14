@@ -13,7 +13,7 @@
                 @Html.DisplayNameFor(model => model.FacultyName)
                 <select class="form-control" id="FacultyName" name="FacultyName">
                     <option>---- ընտրել ----</option>
-                    @foreach (var type in Model.Faculties)
+                    @foreach (var type in Model.Faculties.OrderBy(f=>f.FacultyName))
                     {
                         <option value="@type.FacultyName">@type.FacultyName</option>
                     }
@@ -22,9 +22,10 @@
             </div>
             <div class="form-group">
                 @Html.DisplayNameFor(model => model.GroupName)
+                <br />
                 <select class="form-control" id="GroupName" name="GroupName">
                     <option>---- ընտրել ----</option>
-                    @foreach (var type in Model.Groups)
+                    @foreach (var type in Model.Groups.OrderBy(g => g.GroupName))
                     {
                         <option value="@type.GroupName">@type.GroupName</option>
                     }
@@ -33,7 +34,9 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Փնտրել" class="btn btn-outline-success" />
+                <button type="submit" class="btn btn-success w-25" title="Փնտրել" asp-action="GetFrequencies">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
             </div>
         </form>
     </div>
@@ -56,6 +59,7 @@
                         console.log(facultyName);
                         console.log(data);
                         $("#GroupName option").remove();
+                        $('#GroupName').append($('<option></option>').text('---- ընտրել ----').val('---- ընտրել ----'));
                         data.forEach(group => {
                             $('#GroupName').append($('<option></option>').text(`${group.groupName}`).val(group.groupName));
                         })
