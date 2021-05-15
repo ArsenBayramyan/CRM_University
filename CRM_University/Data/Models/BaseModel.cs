@@ -32,6 +32,8 @@ namespace CRM_University.Data.Models
         public DateTime DiscountDate { get; set; }
         public string DiscountName { get; set; }
         public StudentStatus Status { get; set; }
+        public DateTime SendEmailDate { get; set; }
+        public AlertType AlertType { get; set; }
 
     }
 }

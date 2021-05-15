@@ -4,14 +4,16 @@ using CRM_University.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CRM_University.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210514174849_newtable")]
+    partial class newtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,24 +205,6 @@ namespace CRM_University.Migrations
                     b.HasKey("NotReceivedId");
 
                     b.ToTable("NotReceiveds");
-                });
-
-            modelBuilder.Entity("CRM_University.Data.Models.ReprimandedStudent", b =>
-                {
-                    b.Property<int>("ReprimandedStudentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateOfReprimand")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ReprimandedStudentId");
-
-                    b.ToTable("ReprimandedStudents");
                 });
 
             modelBuilder.Entity("CRM_University.Data.Models.Student", b =>

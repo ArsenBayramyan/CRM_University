@@ -6,6 +6,7 @@ using CRM_University.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CRM_University.Core.Jobs
@@ -20,11 +21,20 @@ namespace CRM_University.Core.Jobs
                 .Options;
             var context2 = new ApplicationDBContext(contextOptions);
             var uow = new UnitOfWorkRepository(context2);
+            var emailLogs = uow.EmailLogRepository.List();
+            var dateNowMonth = DateTime.Now.Month;
             foreach (var student in students)
             {
-                var message = "bacakayutyan nkatoxutyun eq stacel";
-                EmailSender.SendEmail(student.Email, message);
-                uow.UnpaidStudentsRepository.Save(new SentEmails { StudentId = student.StudentId, SendEmailDate = DateTime.Now, AlertType = AlertType.SentForAssessment });
+                if (emailLogs.FirstOrDefault(e=>e.StudentId==student.StudentId) is null)
+                {
+                    var message = "Դուք ստացել եք նկատողություն 80 ժամից ավել բացակայելու պատճառով";
+                    EmailSender.SendEmail(student.Email, message);
+                    ReprimandedStudent reprimandedStudent = new ReprimandedStudent();
+                    reprimandedStudent.StudentId = student.StudentId;
+                    reprimandedStudent.DateOfReprimand = DateTime.Now;
+                    uow.ReprimandedStudentRepository.Save(reprimandedStudent);
+                    uow.EmailLogRepository.Save(new EmailLog { StudentId = student.StudentId, SendEmailDate = DateTime.Now, AlertType = AlertType.SentForAssessment });
+                }
             }
 
             return null;

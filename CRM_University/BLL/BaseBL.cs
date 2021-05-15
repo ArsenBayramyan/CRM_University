@@ -1,4 +1,5 @@
-﻿using CRM_University.Data.Repositories;
+﻿using AutoMapper;
+using CRM_University.Data.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,11 @@ namespace CRM_University.BLL
     public class BaseBL
     {
         protected UnitOfWorkRepository UOW { get; private set; }
-        public BaseBL(UnitOfWorkRepository unitOfWork)
+        protected IMapper Mapper { get; private set; }
+        public BaseBL(UnitOfWorkRepository unitOfWork,IMapper mapper)
         {
-            this.UOW = unitOfWork;
+            UOW = unitOfWork;
+            Mapper = mapper;
         }
     }
 }

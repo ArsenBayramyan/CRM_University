@@ -12,7 +12,7 @@ namespace CRM_University.Data.ExecuteComand
 {
     public static class StoredProcedure
     {
-        private const string _connectionString = "Server=localhost;Database=CRM_UniversityDB;Trusted_Connection=True;MultipleActiveResultSets=true";
+        private const string _connectionString = "Server=DESKTOP-B1TS7RO;Database=CRM_UniversityDB;Trusted_Connection=True;MultipleActiveResultSets=true";
         public static List<BaseModel> GetExamResult(string subjectName,int examResult )
         {
             using (SqlConnection con = new SqlConnection(_connectionString))

@@ -13,10 +13,11 @@ namespace CRM_University.Data.Repositories
         private StudentSubjectRepository _studentSubjectRepository;
         private SubjectRepository _subjectRepository;
         private TutionRepository _tutionRepository;
-        private UnpaidStudentsRepository _unpaidStudentRepository;
         private FrequenciyRepository _frequenciyRepository;
         private NotReceivedRepository _notReceivedRepository;
         private DiscountStudentRepository _discountStudentRepository;
+        private EmailLogRepository _emailLogRepository;
+        private ReprimandedStudentRepository _reprimandedStudentRepository;
         public UnitOfWorkRepository(ApplicationDBContext context)
         {
             _studentRepository = new StudentRepository(context);
@@ -27,10 +28,11 @@ namespace CRM_University.Data.Repositories
             _studentSubjectRepository = new StudentSubjectRepository(context);
             _subjectRepository = new SubjectRepository(context);
             _tutionRepository = new TutionRepository(context);
-            _unpaidStudentRepository = new UnpaidStudentsRepository(context);
+            _emailLogRepository = new EmailLogRepository(context);
             _frequenciyRepository = new FrequenciyRepository(context);
             _notReceivedRepository = new NotReceivedRepository(context);
             _discountStudentRepository = new DiscountStudentRepository(context);
+            _reprimandedStudentRepository = new ReprimandedStudentRepository(context);
         }
 
         public StudentRepository StudentRepository => _studentRepository;
@@ -41,10 +43,11 @@ namespace CRM_University.Data.Repositories
         public StudentSubjectRepository StudentSubjectRepository => _studentSubjectRepository;
         public SubjectRepository SubjectRepository => _subjectRepository;
         public TutionRepository TutionRepository => _tutionRepository;
-        public UnpaidStudentsRepository UnpaidStudentsRepository => _unpaidStudentRepository;
+        public EmailLogRepository EmailLogRepository => _emailLogRepository;
         public FrequenciyRepository FrequenciyRepository => _frequenciyRepository;
         public NotReceivedRepository NotReceivedRepository => _notReceivedRepository;
         public DiscountStudentRepository DiscountStudentRepository => _discountStudentRepository;
+        public ReprimandedStudentRepository ReprimandedStudentRepository => _reprimandedStudentRepository;
 
     }
 }

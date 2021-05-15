@@ -11,10 +11,14 @@ namespace CRM_University.Models.ViewModels
     {
         [Display(Name = "Ֆակուլտետ")]
         public string FacultyName { get; set; }
+        public int FacultyId { get; set; }
         [Display(Name = "Խումբ")]
         public string GroupName { get; set; }
+        public int GroupId { get; set; }
         [Display(Name = "ՈՒսանող")]
         public int StudentId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         [Display(Name = "Ուսումնական փուլի սկիզբ")]
         public DateTime StartDate { get; set; }
         [Display(Name = "Ուսումնական փուլի ավարտ")]

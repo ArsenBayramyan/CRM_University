@@ -1,5 +1,7 @@
-﻿using CRM_University.Data.Models;
+﻿using AutoMapper;
+using CRM_University.Data.Models;
 using CRM_University.Data.Repositories;
+using CRM_University.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,7 +11,7 @@ namespace CRM_University.BLL
 {
     public class StudentBL : BaseBL
     {
-        public StudentBL(UnitOfWorkRepository unitOfWork) : base(unitOfWork) { }
+        public StudentBL(UnitOfWorkRepository unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
 
         public DataTable ExportToExcel(List<BaseModel> list)
         {
@@ -32,7 +34,7 @@ namespace CRM_University.BLL
             return table;
         }
 
-        public Data.Models.Filter GetExamResult(string subject, string facultyName, string groupName,int studentId, int result)
+        public Data.Models.Filter GetExamResult(string subject, string facultyName, string groupName, int studentId, int result)
         {
             var students = from exam in UOW.ExaminationRepository.List()
                            join s in UOW.StudentRepository.List() on exam.StudentId equals s.StudentId
@@ -108,7 +110,6 @@ namespace CRM_University.BLL
         public Data.Models.Filter GetUnPaidStudents(string facultyName, string groupName)
         {
             var ex = (from st in UOW.StudentRepository.List()
-                          //join s in UOW.StudentRepository.List() on unPaid.StudentId equals s.StudentId
                       join g in UOW.GroupRepository.List() on st.GroupId equals g.GroupId
                       join f in UOW.FacultyRepository.List() on g.FacultyId equals f.FacultyId
                       select new BaseModel
@@ -187,7 +188,7 @@ namespace CRM_University.BLL
             {
                 students = students.Where(g => g.GroupName == groupName);
             }
-           
+
             return new Data.Models.Filter { FilterList = students.ToList() };
         }
 
@@ -289,7 +290,7 @@ namespace CRM_University.BLL
                                StudentId = st.StudentId,
                                StudentFirstName = st.FirstName,
                                StudentLastName = st.LastName,
-                               DiscountName=dis.DiscountName,
+                               DiscountName = dis.DiscountName,
                                DiscountDate = dis.DiscountDate,
                                FacultyName = f.FacultyName,
                                GroupName = g.GroupName,
@@ -303,12 +304,106 @@ namespace CRM_University.BLL
             {
                 students = students.Where(g => g.GroupName == groupName);
             }
-            if (studentId!=0)
+            if (studentId != 0)
             {
                 students = students.Where(s => s.StudentId == studentId);
             }
 
             return new Data.Models.Filter { FilterList = students.ToList() };
+        }
+
+        public EmailLogViewModel GetEmailLogsForAbsences()
+        {
+            var students = UOW.StudentRepository.List();
+            var studentsViewModels = Mapper.Map<IEnumerable<Student>, IEnumerable<StudentViewModel>>(students);
+            var faculties = UOW.FacultyRepository.List();
+            var groups = UOW.GroupRepository.List();
+            var dateMonth = DateTime.Now.Month;
+            EmailLogViewModel emailLog = new EmailLogViewModel();
+            IEnumerable<EmailLog> forAbsences;
+            if (dateMonth >= 9 && dateMonth <= 12)
+            {
+                emailLog.Students = studentsViewModels;
+                emailLog.Faculties = UOW.FacultyRepository.List();
+                emailLog.Groups = UOW.GroupRepository.List();
+                forAbsences = UOW.EmailLogRepository.List().Where(a => a.AlertType == Core.Enums.AlertType.SentForAssessment && a.SendEmailDate.Month >= 2 && a.SendEmailDate.Month <= 5);
+                IEnumerable<EmailLogViewModel> forAbsencesViewModels = Mapper.Map<IEnumerable<EmailLog>, IEnumerable<EmailLogViewModel>>(forAbsences);
+                emailLog.EmailLogs = forAbsencesViewModels;
+            }
+            else
+            {
+                emailLog.Students = studentsViewModels;
+                emailLog.Faculties = UOW.FacultyRepository.List();
+                emailLog.Groups = UOW.GroupRepository.List();
+                forAbsences = UOW.EmailLogRepository.List().Where(a => a.AlertType == Core.Enums.AlertType.SentForAssessment && a.SendEmailDate.Month >= 2 && a.SendEmailDate.Month <= 5);
+                IEnumerable<EmailLogViewModel> forAbsencesViewModels = Mapper.Map<IEnumerable<EmailLog>, IEnumerable<EmailLogViewModel>>(forAbsences);
+                emailLog.EmailLogs = forAbsencesViewModels;
+
+            }
+
+
+            return emailLog;
+        }
+
+        public EmailLogViewModel GetEmailLogsForUnPaids()
+        {
+            var students = UOW.StudentRepository.List();
+            var studentsViewModels = Mapper.Map<IEnumerable<Student>, IEnumerable<StudentViewModel>>(students);
+            var faculties = UOW.FacultyRepository.List();
+            var groups = UOW.GroupRepository.List();
+            var dateMonth = DateTime.Now.Month;
+            EmailLogViewModel emailLog = new EmailLogViewModel();
+            IEnumerable<EmailLog> forTution;
+            if (dateMonth >= 9 && dateMonth <= 12)
+            {
+                emailLog.Students = studentsViewModels;
+                emailLog.Faculties = UOW.FacultyRepository.List();
+                emailLog.Groups = UOW.GroupRepository.List();
+                forTution = UOW.EmailLogRepository.List().Where(a => a.AlertType == Core.Enums.AlertType.SentForTution && a.SendEmailDate.Month >= 9 && a.SendEmailDate.Month <= 12);
+                IEnumerable<EmailLogViewModel> forTutionViewModels = Mapper.Map<IEnumerable<EmailLog>, IEnumerable<EmailLogViewModel>>(forTution);
+                emailLog.EmailLogs = forTutionViewModels;
+            }
+            else
+            {
+                emailLog.Students = studentsViewModels;
+                emailLog.Faculties = UOW.FacultyRepository.List();
+                emailLog.Groups = UOW.GroupRepository.List();
+                forTution = UOW.EmailLogRepository.List().Where(a => a.AlertType == Core.Enums.AlertType.SentForTution && a.SendEmailDate.Month >= 2 && a.SendEmailDate.Month <= 5);
+                IEnumerable<EmailLogViewModel> forTutionViewModels = Mapper.Map<IEnumerable<EmailLog>, IEnumerable<EmailLogViewModel>>(forTution);
+                emailLog.EmailLogs = forTutionViewModels;
+            }
+
+
+            return emailLog;
+        }
+
+        public ReprimandedStudentViewModel GetReprimandedStudents()
+        {
+            var students = UOW.StudentRepository.List();
+            var studentsViewModels = Mapper.Map<IEnumerable<Student>, IEnumerable<StudentViewModel>>(students);
+            var faculties = UOW.FacultyRepository.List();
+            var groups = UOW.GroupRepository.List();
+            var dateYear = DateTime.Now.Year;
+            var dateMonth = DateTime.Now.Month;
+            ReprimandedStudentViewModel reprimandedStudentViewModel = new ReprimandedStudentViewModel();
+            IEnumerable<ReprimandedStudent> reprimandedStudents;
+            reprimandedStudentViewModel.Students = studentsViewModels;
+            reprimandedStudentViewModel.Faculties = faculties;
+            reprimandedStudentViewModel.Groups = groups;
+            if (dateMonth>=9 && dateMonth<=12)
+            {
+                reprimandedStudents = UOW.ReprimandedStudentRepository.List().Where(r => r.DateOfReprimand.Year == dateYear && r.DateOfReprimand.Month >= 9 && r.DateOfReprimand.Month <= 12);
+                var reprimandedStudentViewModels = Mapper.Map<IEnumerable<ReprimandedStudent>, IEnumerable<ReprimandedStudentViewModel>>(reprimandedStudents);
+                reprimandedStudentViewModel.ReprimandedStudentViewModels= reprimandedStudentViewModels;
+            }
+            else
+            {
+                reprimandedStudents = UOW.ReprimandedStudentRepository.List().Where(r => (r.DateOfReprimand.Year == dateYear || r.DateOfReprimand.Year==dateYear-1) && r.DateOfReprimand.Month >= 2 && r.DateOfReprimand.Month <= 5);
+                var reprimandedStudentViewModels = Mapper.Map<IEnumerable<ReprimandedStudent>, IEnumerable<ReprimandedStudentViewModel>>(reprimandedStudents);
+                reprimandedStudentViewModel.ReprimandedStudentViewModels = reprimandedStudentViewModels;
+            }
+
+            return reprimandedStudentViewModel;
         }
     }
 

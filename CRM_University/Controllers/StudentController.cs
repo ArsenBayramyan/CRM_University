@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CRM_University.BLL;
+using CRM_University.Core.Enums;
 using CRM_University.Core.Interfaces;
 using CRM_University.Data.Models;
 using CRM_University.Data.Repositories;
@@ -31,21 +32,21 @@ namespace CRM_University.Controllers
         [HttpGet]
         public IActionResult ExamResult()
         {
-            var subjects = _unitOfWork.SubjectRepository.List().Where(s=>s.AssessmentCheck==false);
+            var subjects = _unitOfWork.SubjectRepository.List().Where(s => s.AssessmentCheck == false);
             var faculties = _unitOfWork.FacultyRepository.List();
             var groups = _unitOfWork.GroupRepository.List();
             var students = _unitOfWork.StudentRepository.List();
             var subjectsList = _mapper.Map<IEnumerable<Subject>, IEnumerable<SubjectViewModel>>(subjects);
 
 
-            return View(new SubjectViewModel { Subjects=subjectsList,Faculties=faculties,Groups=groups,Students=students});
+            return View(new SubjectViewModel { Subjects = subjectsList, Faculties = faculties, Groups = groups, Students = students });
         }
 
         [HttpPost]
         public IActionResult ExamResult(SubjectViewModel subjectViewModel)
         {
-            StudentBL studentBL = new StudentBL(_unitOfWork);
-            var dalFilter = studentBL.GetExamResult(subjectViewModel.SubjectName,subjectViewModel.FacultyName,subjectViewModel.GroupName, subjectViewModel.StudentId, subjectViewModel.Result);
+            StudentBL studentBL = new StudentBL(_unitOfWork,_mapper);
+            var dalFilter = studentBL.GetExamResult(subjectViewModel.SubjectName, subjectViewModel.FacultyName, subjectViewModel.GroupName, subjectViewModel.StudentId, subjectViewModel.Result);
             var filter = this._mapper.Map<Filter, FilterViewModel>(dalFilter);
             return View("~/Views/Student/ExamResultPost.cshtml", filter);
         }
@@ -56,14 +57,14 @@ namespace CRM_University.Controllers
             var faculties = _unitOfWork.FacultyRepository.List();
             var groups = _unitOfWork.GroupRepository.List();
 
-            return View(new FrequencyViewModel { Faculties=faculties,Groups=groups});
+            return View(new FrequencyViewModel { Faculties = faculties, Groups = groups });
         }
 
         [HttpPost]
         public IActionResult GetFrequencies(FrequencyViewModel frequencyViewModel)
         {
-            StudentBL studentBL = new StudentBL(_unitOfWork);
-            var filterForFrequencies = studentBL.GetFrequency(frequencyViewModel.AbsenceCount,frequencyViewModel.FacultyName,frequencyViewModel.GroupName);
+            StudentBL studentBL = new StudentBL(_unitOfWork,_mapper);
+            var filterForFrequencies = studentBL.GetFrequency(frequencyViewModel.AbsenceCount, frequencyViewModel.FacultyName, frequencyViewModel.GroupName);
             var filterViewModel = this._mapper.Map<Filter, FilterViewModel>(filterForFrequencies);
 
             return View("~/Views/Student/GetFrequenciesPost.cshtml", filterViewModel);
@@ -75,12 +76,12 @@ namespace CRM_University.Controllers
             var faculties = _unitOfWork.FacultyRepository.List();
             var groups = _unitOfWork.GroupRepository.List();
 
-            return View(new UnPaidStudentViewModel { Faculties=faculties,Groups=groups});
+            return View(new UnPaidStudentViewModel { Faculties = faculties, Groups = groups });
         }
         [HttpPost]
         public IActionResult UnPaidStudents(UnPaidStudentViewModel unPaidStudentViewModel)
         {
-            StudentBL studentBL = new StudentBL(_unitOfWork);
+            StudentBL studentBL = new StudentBL(_unitOfWork,_mapper);
             var filterForUnPaidStudents = studentBL.GetUnPaidStudents(unPaidStudentViewModel.FacultyName, unPaidStudentViewModel.GroupName);
             var filterViewModel = _mapper.Map<Filter, FilterViewModel>(filterForUnPaidStudents);
 
@@ -90,7 +91,7 @@ namespace CRM_University.Controllers
         [HttpGet]
         public IActionResult GetAnotherCountryStudents()
         {
-            StudentBL studentBL = new StudentBL(_unitOfWork);
+            StudentBL studentBL = new StudentBL(_unitOfWork,_mapper);
             var students = studentBL.GetAnotherCountryStudents();
             var studentsViewModel = this._mapper.Map<Filter, FilterViewModel>(students);
 
@@ -108,8 +109,8 @@ namespace CRM_University.Controllers
         [HttpPost]
         public IActionResult Students(StudentViewModel studentViewModel)
         {
-            StudentBL studentBL = new StudentBL(_unitOfWork);
-           
+            StudentBL studentBL = new StudentBL(_unitOfWork,_mapper);
+
             var students = studentBL.GetStudents(studentViewModel.FacultyName, studentViewModel.GroupName);
             var studentsViewModel = this._mapper.Map<Filter, FilterViewModel>(students);
 
@@ -149,13 +150,13 @@ namespace CRM_University.Controllers
             var faculties = _unitOfWork.FacultyRepository.List();
             var groups = _unitOfWork.GroupRepository.List();
 
-            return View( new StudentViewModel { Faculties = faculties, Groups = groups });
+            return View(new StudentViewModel { Faculties = faculties, Groups = groups });
         }
 
         [HttpPost]
         public IActionResult GetForFreeStudents(StudentViewModel studentViewModel)
         {
-            StudentBL studentBL = new StudentBL(_unitOfWork);
+            StudentBL studentBL = new StudentBL(_unitOfWork,_mapper);
             var students = studentBL.GetForFreeStudents(studentViewModel.FacultyName, studentViewModel.GroupName);
             var studentsViewModel = this._mapper.Map<Filter, FilterViewModel>(students);
 
@@ -165,7 +166,7 @@ namespace CRM_University.Controllers
         [HttpGet]
         public IActionResult GetNotReceivedStudents()
         {
-            StudentBL studentBL = new StudentBL(_unitOfWork);
+            StudentBL studentBL = new StudentBL(_unitOfWork,_mapper);
             var students = studentBL.GetNotReceiveds();
             var studentsViewModel = this._mapper.Map<Filter, FilterViewModel>(students);
 
@@ -179,16 +180,16 @@ namespace CRM_University.Controllers
             var groups = _unitOfWork.GroupRepository.List();
             var students = _unitOfWork.StudentRepository.List();
 
-            return View(new StudentViewModel { Faculties = faculties, Groups = groups ,Students=students});
+            return View(new StudentViewModel { Faculties = faculties, Groups = groups, Students = students });
         }
         [HttpPost]
         public IActionResult Mog(StudentViewModel studentViewModel)
         {
-            StudentBL studentBL = new StudentBL(_unitOfWork);
-            var students = studentBL.GetStudentMog(studentViewModel.FacultyName,studentViewModel.GroupName,studentViewModel.StudentId,studentViewModel.StartDate,studentViewModel.EndDate);
+            StudentBL studentBL = new StudentBL(_unitOfWork,_mapper);
+            var students = studentBL.GetStudentMog(studentViewModel.FacultyName, studentViewModel.GroupName, studentViewModel.StudentId, studentViewModel.StartDate, studentViewModel.EndDate);
             var studentsViewModel = this._mapper.Map<Filter, FilterViewModel>(students);
 
-            return View("~/Views/Student/MogPost.cshtml",studentsViewModel);
+            return View("~/Views/Student/MogPost.cshtml", studentsViewModel);
         }
 
         [HttpGet]
@@ -203,11 +204,39 @@ namespace CRM_University.Controllers
         [HttpPost]
         public IActionResult GetDiscountStudents(StudentViewModel studentViewModel)
         {
-            StudentBL studentBL = new StudentBL(_unitOfWork);
+            StudentBL studentBL = new StudentBL(_unitOfWork,_mapper);
             var students = studentBL.GetDiscountStudents(studentViewModel.FacultyName, studentViewModel.GroupName, studentViewModel.StudentId, studentViewModel.StartDate, studentViewModel.EndDate);
             var studentsViewModel = this._mapper.Map<Filter, FilterViewModel>(students);
-            
+
             return View("~/Views/Student/GetDiscountStudentsPost.cshtml", studentsViewModel);
         }
+
+        [HttpGet]
+        public IActionResult EmailLog() => View();
+
+        public IActionResult EmailLogForAbsences()
+        {
+            StudentBL studentBL = new StudentBL(_unitOfWork, _mapper);
+            var forAbsencesViewModels = studentBL.GetEmailLogsForAbsences();
+
+            return View(forAbsencesViewModels);
+        }
+
+        public IActionResult EmailLogForUnPaids()
+        {
+            StudentBL studentBL = new StudentBL(_unitOfWork, _mapper);
+            var forTutionViewModels = studentBL.GetEmailLogsForUnPaids();
+
+            return View(forTutionViewModels);
+        }
+
+        public IActionResult ReprimandedStudents()
+        {
+            StudentBL studentBL = new StudentBL(_unitOfWork, _mapper);
+            var reprimandedStudents = studentBL.GetReprimandedStudents();
+
+            return View(reprimandedStudents);
+        }
+
     }
 }

@@ -74,5 +74,9 @@ namespace CRM_University.Models.ViewModels
         public DateTime DiscountDate { get; set; }
         [Display(Name = "Զեղչի անունը")]
         public string DiscountName { get; set; }
+        [Display(Name = "Հաղորդագրություն ուկարկելու ամսաթիվը")]
+        public DateTime SendEmailDate { get; set; }
+        [Display(Name = "Հաղորդագրության տիպը")]
+        public AlertType AlertType { get; set; }
     }
 }

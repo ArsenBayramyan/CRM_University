@@ -26,7 +26,7 @@ namespace CRM_University.Core.Jobs
             {
                 var message = "Խնդրում ենք վճարել ուսման վարձը";
                 EmailSender.SendEmail(student.Email, message);
-                uow.UnpaidStudentsRepository.Save(new SentEmails { StudentId = student.StudentId, SendEmailDate = DateTime.Now,AlertType=AlertType.SentForTution });
+                uow.EmailLogRepository.Save(new EmailLog { StudentId = student.StudentId, SendEmailDate = DateTime.Now,AlertType=AlertType.SentForTution });
             }
 
             return null;
